@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tab, Tabs, Box } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 function VerticalTabs({ value, onChange }) {
   
@@ -23,30 +24,28 @@ function VerticalTabs({ value, onChange }) {
   return (
     <Box 
         sx={{ 
-            borderRight: 0, 
-            borderColor: 'linear-gradient(156deg,#006080,#006181 47%,#003648)', 
-            width: 240, 
-            height: '100vh', 
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'center',
-            background: 'linear-gradient(156deg,#006080,#006181 47%,#003648)' // Fixed gradient here 
-           
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center', // Vertically center the content
+            justifyContent: 'space-between', // Align content to the start (left)
+            background: 'transparent', // ensure the gradient from parent is visible
+            padding: '.5rem'
         }}
     >
+      <DashboardIcon color="primary" style={{ marginRight: '10px' }} />
       <Tabs
-        orientation="vertical"
         variant="scrollable"
         value={value}
         onChange={handleTabChange}
-        aria-label="Vertical tabs example"
+        aria-label="Tabs example"
         sx={{
-          '& .Mui-selected': {  // Apply styles to the selected Tab
-            borderBottom: '2px solid blue',  // Underline the tab
-            '& .MuiTab-wrapper': {
-              flexDirection: 'row',  // Switch the icon and the text positions
-            },
+          '& .Mui-selected': {
+            borderBottom: '2px solid white',
+            color: 'black',
           },
+          '.MuiTab-root': {
+            color: 'black',
+          }
         }}
       >
         <Tab label="Tab One" />

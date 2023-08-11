@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { Box, Typography, Paper } from '@mui/material'; 
 import { Link } from 'react-router-dom';
 
-
 function MainContent({ onSectionInView }) {
   const containerRef = useRef();
   const sections = ["tab-one", "tab-two", "tab-three"];
@@ -22,7 +21,7 @@ function MainContent({ onSectionInView }) {
   useEffect(() => {
     const handleScroll = debounce(() => {
       let inViewIndex;
-      const offset = 200; // this might need tweaking
+      const offset = 200; 
       for (let i = 0; i < sections.length; i++) {
         const element = document.getElementById(sections[i]);
         const rect = element.getBoundingClientRect();
@@ -34,7 +33,7 @@ function MainContent({ onSectionInView }) {
       if (inViewIndex !== undefined) {
         onSectionInView(inViewIndex);
       }
-    }, 50); // debounce time
+    }, 50); 
 
     const containerEl = containerRef.current;
     containerEl.addEventListener("scroll", handleScroll);
@@ -42,80 +41,71 @@ function MainContent({ onSectionInView }) {
     return () => containerEl.removeEventListener("scroll", handleScroll);
   }, [onSectionInView]); 
 
-
   return (
-    <Box ref={containerRef} flex="1" margin-left="0px" paddingX="0px" paddingTop="0" paddingBottom="0px" overflow="auto" height="calc(100vh)">
+    <Box ref={containerRef} flex="1" paddingX="0px" paddingTop="0" paddingBottom="0px" overflow="auto" height="calc(100vh)">
+      
       <Paper
         id="tab-one"
-        elevation={3}
+        elevation={0}
         sx={{
-          margin: '0px 0', 
-          borderRadius: 0,
+          margin: '0px 0',
           padding: '300px 100px', 
-          backgroundSize: 'cover', // Adjust how the image covers the background
-          background: 'linear-gradient(156deg,#006080,#006181 47%,#003648)', // Set the background image URL
+          background: 'linear-gradient(156deg,#006080,#006181 47%,#003648)',
+          opacity: 0.6,
           textAlign: 'center',
-          borderTop: '5px solid', // Thicker line at the top
-          borderBottom: '2px solid', // Thicker line at the bottom
-
+          borderBottom: '2px solid',
         }}
       >
         <Typography variant="h6">Content for Tab One</Typography>
       </Paper>
+
       <Paper
         id="tab-two"
-        elevation={3}
+        elevation={0}
         sx={{
           margin: '0px 0',
-          borderRadius: 0,
-          padding: '300px 100px', 
-          backgroundSize: 'cover', // Adjust how the image covers the background
-          background: 'white', // Set the background image URL
+          padding: '300px 100px',
+          background: '#white',
           textAlign: 'center',
-          borderTop: '5px solid', // Thicker line at the top 
-          borderBottom: '2px solid', // Thicker line at the bottom
-
+          borderBottom: '2px solid',
         }}
       >
         <Typography variant="h6">Content for Tab Two</Typography>
       </Paper>
+
       <Paper
         id="tab-three"
-        elevation={3}
+        elevation={0}
         sx={{
           margin: '0px 0',
-          borderRadius: 0,
-          padding: '300px 100px', 
-          backgroundSize: 'cover', // Adjust how the image covers the background
+          padding: '300px 100px',
           background: 'linear-gradient(156deg,#006080,#006181 47%,#003648)',
+          opacity: 1,
           textAlign: 'center',
-          borderTop: '5px solid', // Thicker line at the top 
-          borderBottom: '2px solid', // Thicker line at the bottom
-
+          borderBottom: '2px solid',
         }}
       >
         <Typography variant="h6">Content for Tab Three</Typography>
       </Paper>
+
       <Paper
         sx={{
           marginTop: '0px',
-          borderRadius: 0,
           marginBottom: '0px',
-          background: '#493382',
+          background: 'white',
           padding: '20px', 
-          color: 'black'
+          color: 'white'
         }}
       >
         <Typography variant="body1">
-          <Link to="/datatest" style={{ color: 'black', textDecoration: 'none' }}>
+          <Link href="/datatest" color="white" underline="none">
             Data Test
           </Link>
           <br />
-          <Link to="/formtest" style={{ color: 'black', textDecoration: 'none' }}>
+          <Link href="/formtest" color="white" underline="none">
             Form
           </Link>
         </Typography>
-
       </Paper>
 
     </Box>
