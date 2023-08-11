@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
+import { Link } from 'react-router-dom';
+
 
 function DataTest() {
   const [stories, setStories] = useState([]);
@@ -21,6 +23,7 @@ function DataTest() {
 
   return (
     <div>
+       <Link to="/">Back to Home</Link>
        <ul>
         {stories.map(story => (
           <div key={story.id}>

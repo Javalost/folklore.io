@@ -29,6 +29,16 @@ app.get('/datatest', async (req, res) => {
         console.error(err);
         res.status(500).send('Server error');
     }
+}); 
+
+app.get('/testform', async (req, res) => {
+    try { 
+        const result = await pool.query('SELECT * FROM testform'); 
+        res.json(result.rows)
+    } catch (err) { 
+        console.error(err)
+        res.status(500).send('Server error');
+    }
 });
 
 // POST endpoint to submit data

@@ -21,7 +21,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-image: url('/home/jose/GitRepo/folklore/src/assets/images/starry-night-sky.jpg');
 }
 
 .App-link {
