@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Box, Typography, Paper } from '@mui/material'; 
 import { Link } from 'react-router-dom';
+import ProductTab from './TabOneContent/ProductTab';
 
 function MainContent({ onSectionInView }) {
   const containerRef = useRef();
@@ -49,14 +50,14 @@ function MainContent({ onSectionInView }) {
         elevation={0}
         sx={{
           margin: '0px 0',
-          padding: '300px 100px', 
+          padding: '100px 100px', 
           background: 'linear-gradient(156deg,#006080,#006181 47%,#003648)',
           opacity: 0.6,
           textAlign: 'center',
           borderBottom: '2px solid',
         }}
       >
-        <Typography variant="h6">Content for Tab One</Typography>
+        <ProductTab/>
       </Paper>
 
       <Paper
@@ -98,11 +99,11 @@ function MainContent({ onSectionInView }) {
         }}
       >
         <Typography variant="body1">
-          <Link href="/datatest" color="white" underline="none">
+          <Link to="/datatest" color="white" underline="none">
             Data Test
           </Link>
           <br />
-          <Link href="/formtest" color="white" underline="none">
+          <Link to="/formtest" color="white" underline="none">
             Form
           </Link>
         </Typography>

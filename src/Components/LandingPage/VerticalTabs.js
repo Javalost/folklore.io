@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab, Tabs, Box } from '@mui/material';
+import { Tab, Tabs, Box, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 function VerticalTabs({ value, onChange }) {
@@ -32,7 +32,15 @@ function VerticalTabs({ value, onChange }) {
             padding: '.5rem'
         }}
     >
-      <DashboardIcon color="primary" style={{ marginRight: '10px' }} />
+      <Box 
+        sx = {{ 
+            display: 'flex',
+            alignItems: 'center'
+        }}
+      >
+        <DashboardIcon color="primary" style={{ fontSize: '5rem', marginRight: '10px' }} />  
+        <Typography variant = "h4">MY APP</Typography>
+      </Box>
       <Tabs
         variant="scrollable"
         value={value}
@@ -50,7 +58,8 @@ function VerticalTabs({ value, onChange }) {
       >
         <Tab label="Tab One" />
         <Tab label="Tab Two" />
-        <Tab label="Tab Three" />
+        <Tab label="Tab Three" /> 
+        <Tab label="Tab Four"/>
       </Tabs>
     </Box>
   );
