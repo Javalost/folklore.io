@@ -54,6 +54,7 @@ function ProductTab() {
 
         <Button 
             variant="contained" 
+            href="/mapbox"
             size="small" 
             color="primary" 
             fullWidth 
