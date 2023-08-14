@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryContent from './StoryContent';
+import StoryContainer from './StoryContainer';
 import MapBox from './MapBox';
 import { Box, Container } from '@mui/material';
 
@@ -16,7 +16,7 @@ function CombinedMapContent() {
         boxSizing: 'border-box',
       }}
     >
-      <StoryContent />
+      <StoryContainer />
       <MapBox />
  </Box>
  
