@@ -5,20 +5,21 @@ import { Box, Container } from '@mui/material';
 
 function CombinedMapContent() {
   return (
-    <Container
+    <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
-        padding: '16px',
+        flexDirection: 'row',
+        margin: '0',
+        marginRight: '0',
         width: '100%',
         height: '100vh',
         boxSizing: 'border-box',
-        border: 'solid',
       }}
     >
       <StoryContent />
       <MapBox />
-    </Container>
+ </Box>
+ 
   );
 }
 
