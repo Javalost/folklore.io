@@ -10,17 +10,16 @@ function CombinedMapContent() {
         display: 'flex',
         flexDirection: 'row',
         margin: '0',
-        marginRight: '0',
         width: '100%',
         height: '100vh',
         boxSizing: 'border-box',
       }}
     >
-      <StoryContainer />
-      <MapBox />
- </Box>
- 
+      <StoryContainer sx={{ flex: 1 }}/>
+      <MapBox sx={{ flex: 1 }}/>
+    </Box>
   );
 }
+
 
 export default CombinedMapContent;

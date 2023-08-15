@@ -17,8 +17,7 @@ function MapBox() {
   }
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      <Map
+    <Box sx={{ width: '100%', height: '100%', overflow: 'hidden' }}>      <Map
         mapboxAccessToken={mapboxToken}
         initialViewState={{
           longitude: -122.4,

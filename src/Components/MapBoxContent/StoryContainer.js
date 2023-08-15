@@ -32,8 +32,7 @@ function StoryContainer() {
   };
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', border: 'solid', height: '100%', padding: '0px' }}>
-      
+    <Container sx={{ display: 'flex', flexDirection: 'column', border: 'solid', height: '100%', padding: '0', margin: '0' }}>
       <Box sx={{ border: '1px solid #ccc', padding: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         {selectedOptions.map((chip, index) => (
           <Chip
