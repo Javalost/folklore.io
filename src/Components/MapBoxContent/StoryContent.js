@@ -5,7 +5,12 @@ import {
 
 function StoryContent() {
   const stories = [
-    // ... your story data
+    { 
+      countryFlag: 'https://restcountries.com/v3/flags/us.png',
+      storyContent: 'These are the first eight words of the story.',
+      username: 'John Doe'
+    },
+    // ... more story data
   ];
 
   const [page, setPage] = useState(0);
@@ -21,14 +26,37 @@ function StoryContent() {
               <Box 
                 component="li" 
                 display="flex" 
-                justifyContent="center" 
+                justifyContent="start" 
                 alignItems="center"
-                sx={{ listStyle: 'none', height: '80px', padding: '8px 0' }} // Explicit height is added
+                sx={{ listStyle: 'none', width: '50rem',height: '80px', padding: '8px 0' }} 
               >
-                <ButtonBase style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                  <Avatar src={story.countryFlag} alt={story.storyName} />
-                  <Typography variant="h6" sx={{ marginLeft: '10px' }}>
-                    {story.storyName}
+                <ButtonBase style={{ width: '100%', display: 'flex', justifyContent: 'start', gap: '0',}}>
+
+                  <Avatar 
+                    src={story.countryFlag} 
+                    alt={story.storyName} 
+                    sx={{ 
+                      width: 24, 
+                      height: 24,
+                      marginRight: '13px'
+                    }} 
+                  />
+                  
+                  <Typography 
+                    variant="body1" 
+                    component="div"
+                    >
+                    {story.storyContent.split(" ").slice(0, 8).join(" ")}
+                  </Typography>
+                  
+                  <Typography 
+                    variant="body2" 
+                    component="span"
+                    sx={{
+                      marginLeft:'11rem'
+                    }}
+                    >
+                    {story.username}
                   </Typography>
                 </ButtonBase>
               </Box>
