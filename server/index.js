@@ -29,25 +29,72 @@ app.get('/datatest', async (req, res) => {
         console.error(err);
         res.status(500).send('Server error');
     }
-}); 
+});
 
 app.get('/testform', async (req, res) => {
     try { 
         const result = await pool.query('SELECT * FROM testform'); 
-        res.json(result.rows)
+        res.json(result.rows);
     } catch (err) { 
-        console.error(err)
+        console.error(err);
         res.status(500).send('Server error');
     }
 });
 
-// POST endpoint to submit data
 app.post('/submit-data', async (req, res) => {
     const { name, content, location } = req.body;
-
     try {
         await pool.query('INSERT INTO testform (name, content, location) VALUES ($1, $2, $3)', [name, content, location]);
         res.send('Data inserted successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Fetch all unique genres from the 'stories' table
+app.get('/genres', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT DISTINCT genre FROM stories');
+        res.json(result.rows.map(row => row.genre));
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Fetch all unique regions from the 'stories' table
+app.get('/regions', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT DISTINCT region FROM stories');
+        res.json(result.rows.map(row => row.region));
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Fetch stories based on filter
+app.get('/filtered-stories', async (req, res) => {
+    try {
+        const genres = req.query.genres ? req.query.genres.split(',') : [];
+        const regions = req.query.regions ? req.query.regions.split(',') : [];
+
+        let query = 'SELECT * FROM stories WHERE 1=1';
+        const params = [];
+
+        if (genres.length) {
+            query += ` AND genre = ANY($1)`;
+            params.push(genres);
+        }
+
+        if (regions.length) {
+            query += ` AND region = ANY($2)`;
+            params.push(regions);
+        }
+
+        const result = await pool.query(query, params);
+        res.json(result.rows);
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
