@@ -8,15 +8,34 @@ const optionsMapping = {
   "Genre": ["Rock", "Jazz", "Pop", "Classical"]
 };
 
-function StoryContainer() {
+export function SelectedChips({ selectedOptions, handleChipDelete }) {
+  const chipColors = {
+    "Region": "#c14140",
+    "State/Province": "#3b7ec3",
+    "Genre": "#28a636"
+  };
+
+  return (
+    <Box sx={{ padding: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      {selectedOptions.map((chip, index) => (
+        <Chip
+          key={index}
+          label={`${chip.dialog}: ${chip.value}`}
+          onDelete={() => handleChipDelete(chip)}
+          sx={{ backgroundColor: chipColors[chip.dialog], color: 'white' }}
+        />
+      ))}
+    </Box>
+  );
+}
+
+function StoryContainer({ toggleDrawer }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionChange = (event, dialogName) => {
     const newChips = event.target.value.map(value => ({ dialog: dialogName, value }));
     setSelectedOptions(prevOptions => {
-      // Remove previous selections from this dialog
       const filteredOptions = prevOptions.filter(option => option.dialog !== dialogName);
-      // Add new selections
       return [...filteredOptions, ...newChips];
     });
   };
@@ -25,36 +44,24 @@ function StoryContainer() {
     setSelectedOptions(prevChips => prevChips.filter(c => c.dialog !== chip.dialog || c.value !== chip.value));
   };
 
-  const chipColors = {
-    "Region": "#c14140", // Red
-    "State/Province": "#3b7ec3", // Blue
-    "Genre": "#28a636" // Green
-  };
-
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', border: 'solid', height: '100%', padding: '0', margin: '0' }}>
-      <Box sx={{ border: '1px solid #ccc', padding: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        {selectedOptions.map((chip, index) => (
-          <Chip
-            key={index}
-            label={`${chip.dialog}: ${chip.value}`}
-            onDelete={() => handleChipDelete(chip)}
-            sx={{ backgroundColor: chipColors[chip.dialog], color: 'white' }}
-          />
-        ))}
-      </Box>
+    <Container sx={{ display: 'flex', flexDirection: 'row', border: 'solid', height: '100%', padding: '0', margin: '0' }}>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', border: '1px solid #ccc', padding: '16px', gap: '10px', marginBottom: '20px', flex: 1 }}>
-        <FormGroup row sx={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
+      {/* Left Side: Dialogs and Close Drawer */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px' }}>
+        <Button onClick={toggleDrawer}>
+          Close Drawer
+        </Button>
+        <FormGroup sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {Object.keys(optionsMapping).map(dialogName => (
-            <FormControl key={dialogName} variant="outlined" sx={{ minWidth: 180 }}>
+            <FormControl key={dialogName} variant="outlined" sx={{ maxWidth: 150, marginTop: '10px' }}>
               <InputLabel>{dialogName}</InputLabel>
               <Select
                 multiple
                 value={selectedOptions.filter(option => option.dialog === dialogName).map(option => option.value)}
                 onChange={(event) => handleOptionChange(event, dialogName)}
                 label={dialogName}
-                renderValue={(selected) => selected[0] || 'Select options'}
+                renderValue={(selected) => selected.join(', ') || 'Select options'}
               >
                 {optionsMapping[dialogName].map(option => (
                   <MenuItem key={option} value={option}>
@@ -66,7 +73,11 @@ function StoryContainer() {
             </FormControl>
           ))}
         </FormGroup>
+      </Box>
 
+      {/* Right Side: SelectedChips and StoryContent */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, gap: '10px', padding: '10px' }}>
+        <SelectedChips selectedOptions={selectedOptions} handleChipDelete={handleChipDelete} />
         <StoryContent />
       </Box>
 

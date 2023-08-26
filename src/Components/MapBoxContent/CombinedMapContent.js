@@ -1,25 +1,39 @@
-import React from 'react';
-import StoryContainer from './StoryContainer';
+import React, { useState } from 'react';
+import { Box, Drawer, Button} from '@mui/material';
 import MapBox from './MapBox';
-import { Box, Container } from '@mui/material';
+import StoryContainer from './StoryContainer';
 
 function CombinedMapContent() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        margin: '0',
-        width: '100%',
-        height: '100vh',
-        boxSizing: 'border-box',
-      }}
-    >
-      <StoryContainer sx={{ flex: 1 }}/>
-      <MapBox sx={{ flex: 1 }}/>
-    </Box>
+    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+      <MapBox />
+
+      <Box 
+        style={{ position: 'absolute', top: '10px', left: '25px', zIndex: 1500 }}
+      >
+        <Button
+          variant="contained"
+          onClick={toggleDrawer}
+        >
+          {drawerOpen ? "Close Drawer" : "Open Drawer"}
+        </Button>
+      </Box>
+
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+      >
+        <StoryContainer toggleDrawer={toggleDrawer} />
+      </Drawer>
+    </div>
   );
 }
-
 
 export default CombinedMapContent;
