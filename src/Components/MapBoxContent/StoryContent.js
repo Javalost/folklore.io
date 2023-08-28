@@ -36,17 +36,6 @@ function StoryContent() {
               {storyContent + storyContent + storyContent + storyContent}
             </Typography>
           </ButtonBase>
-
-          {/* Username wrapped in ButtonBase */}
-          <ButtonBase sx={{ marginLeft: '11rem' }}>
-            <Typography 
-              variant="body2" 
-              component="span"
-            >
-              {/* username */} 
-              yuh234
-            </Typography>
-          </ButtonBase>
         </Box>
       </Paper>
     </Container>
