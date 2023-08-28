@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'react-map-gl';
 
 function MapBox() {
-  const [viewport, setViewport] = useState({
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8,
-  });
-
   // Ensuring the token is being read correctly
   const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -25,7 +18,7 @@ function MapBox() {
           zoom: 14
         }}
         style={{width: '100%', height: '100%'}}
-        mapStyle="mapbox://styles/folkiomap/cll7fzaqx00pf01qnhh9ogal8" // Your custom Mapbox style
+        mapStyle="mapbox://styles/folkiomap/cllu40olo00xn01qrh53b9u3i" // Your custom Mapbox style
       />
     </Box>
   );

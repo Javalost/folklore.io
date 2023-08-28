@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Box, Container, Chip, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, FormGroup } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { Box, Container, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, FormGroup, Chip } from '@mui/material';
 import StoryContent from './StoryContent';
+import SelectedOptionsContext from './SelectedOptionsContext';
 
 const optionsMapping = {
   "Region": ["North", "South", "East", "West"],
@@ -16,7 +17,7 @@ export function SelectedChips({ selectedOptions, handleChipDelete }) {
   };
 
   return (
-    <Box sx={{ padding: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+    <Box sx={{ padding: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap', marginLeft: '10px'}}>
       {selectedOptions.map((chip, index) => (
         <Chip
           key={index}
@@ -30,7 +31,7 @@ export function SelectedChips({ selectedOptions, handleChipDelete }) {
 }
 
 function StoryContainer({ toggleDrawer }) {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const { selectedOptions, setSelectedOptions } = useContext(SelectedOptionsContext);
 
   const handleOptionChange = (event, dialogName) => {
     const newChips = event.target.value.map(value => ({ dialog: dialogName, value }));
@@ -45,23 +46,19 @@ function StoryContainer({ toggleDrawer }) {
   };
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'row', border: 'solid', height: '100%', padding: '0', margin: '0' }}>
-
-      {/* Left Side: Dialogs and Close Drawer */}
+    <Container sx={{ display: 'flex', flexDirection: 'row', height: '100%', padding: '0', margin: '0' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px' }}>
-        <Button onClick={toggleDrawer}>
-          Close Drawer
-        </Button>
+        <Button onClick={toggleDrawer}>Close Drawer</Button>
         <FormGroup sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {Object.keys(optionsMapping).map(dialogName => (
-            <FormControl key={dialogName} variant="outlined" sx={{ maxWidth: 150, marginTop: '10px' }}>
+            <FormControl key={dialogName} variant="outlined" sx={{ width : '150px', marginTop: '10px' }}> 
               <InputLabel>{dialogName}</InputLabel>
               <Select
                 multiple
                 value={selectedOptions.filter(option => option.dialog === dialogName).map(option => option.value)}
                 onChange={(event) => handleOptionChange(event, dialogName)}
                 label={dialogName}
-                renderValue={(selected) => selected.join(', ') || 'Select options'}
+                renderValue={(selected) => selected[0] || 'Select options'}
               >
                 {optionsMapping[dialogName].map(option => (
                   <MenuItem key={option} value={option}>
@@ -75,12 +72,11 @@ function StoryContainer({ toggleDrawer }) {
         </FormGroup>
       </Box>
 
-      {/* Right Side: SelectedChips and StoryContent */}
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, gap: '10px', padding: '10px' }}>
-        <SelectedChips selectedOptions={selectedOptions} handleChipDelete={handleChipDelete} />
+        {/* Conditionally render the SelectedChips based on the length of selectedOptions */}
+        {selectedOptions.length > 0 && <SelectedChips selectedOptions={selectedOptions} handleChipDelete={handleChipDelete} />}
         <StoryContent />
       </Box>
-
     </Container>
   );
 }
