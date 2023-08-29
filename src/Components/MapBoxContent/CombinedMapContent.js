@@ -15,7 +15,7 @@ function CombinedMapContent() {
       <MapBox />
 
       <Box 
-        style={{ position: 'absolute', top: '10px', left: '35px', zIndex: 1500 }}
+        style={{ position: 'absolute', top: '10px', left: '35px', zIndex: 1500}}
       >
         <Button
           variant="contained"
@@ -29,6 +29,7 @@ function CombinedMapContent() {
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer}
+        PaperProps={{ style: { overflowY: 'hidden', maxHeight: '100vh', width: '60rem' } }}
       >
         <StoryContainer toggleDrawer={toggleDrawer} />
       </Drawer>
