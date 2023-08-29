@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Drawer, Button } from '@mui/material';
-import MapBox from './MapBox';
+import Pigeon from './Pigeon';
 import StoryContainer from './StoryContainer';
 
 function CombinedMapContent() {
@@ -12,7 +12,7 @@ function CombinedMapContent() {
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <MapBox />
+      <Pigeon />
 
       <Box 
         style={{ position: 'absolute', top: '10px', left: '35px', zIndex: 1500}}
