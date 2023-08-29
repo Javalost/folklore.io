@@ -1,43 +1,20 @@
 import React from 'react';
-import { Container, Paper, Avatar, Typography, Box, ButtonBase } from '@mui/material';
+import { Container, Box } from '@mui/material';
+import FTabs from './FTabs';
 
 function StoryContent() {
-  const storyContent = "words";
-  // const username = "...";
 
   return (
-    <Container sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Paper elevation={0} sx={{ padding: '0px', flex: 1 }}>
+    <Container sx={{ flex: 1, display: 'flex', flexDirection: 'column'}}>
         <Box 
           component="li"  
           display="flex"  
           justifyContent="start" 
-          alignItems="center"
-          sx={{ listStyle: 'none', width: '50rem', height: '80px', padding: '4px 0' }} 
+          sx={{ listStyle: 'none', width: '50rem', height: '80px', }} 
         >
-          {/* Avatar wrapped in ButtonBase */}
-          <ButtonBase
-            focusRipple
-            sx={{
-              borderRadius: '50%', // Circular shape
-              overflow: 'hidden', // Ensure the ripple effect doesn't go outside of the circular shape
-              marginRight: '15px',
-            }}
-          >
-            <Avatar 
-              //src={story.countryFlag} 
-              sx={{ width: 24, height: 24 }} 
-            />
-          </ButtonBase>
-          
-          {/* Story content wrapped in ButtonBase */}
-          <ButtonBase>
-            <Typography variant="body1" component="div">
-              {storyContent + storyContent + storyContent + storyContent}
-            </Typography>
-          </ButtonBase>
         </Box>
-      </Paper>
+    
+      <FTabs/>
     </Container>
   );
 }
