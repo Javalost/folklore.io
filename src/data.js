@@ -4,8 +4,8 @@ const storiesData = [
     "genre": "Horror",
     "name": "Parque Heroes",
     "story": "The legend says that many years ago, there was a beautiful young girl who lived in Aguascalientes. She was kind and gentle, and everyone who knew her loved her. One day, the girl was walking through Parque Heroes when she was attacked by a group of bandits. They robbed her and then beheaded her.\n\nHer headless body was found the next day, and the city was in mourning. The girl's parents were heartbroken, and they vowed to find her killer. However, the bandits were never caught.\n\nTo this day, her ghost is said to haunt Parque Heroes. She wanders the park at night, looking for her head. If you see her, it is said that you will be cursed.\n\nSome people believe that the legend is true, while others believe that it is just a story. However, there is no doubt that the legend of the beheaded girl is a popular one in Aguascalientes. It is a story that is passed down from generation to generation, and it continues to frighten people.",
-    "latitude": "21.8518", 
-    "longitude": "102.2877" 
+    "latitude": "21.8807", 
+    "longitude": "-102.2877" 
   },
   {
     "country": "GB-SCT",
