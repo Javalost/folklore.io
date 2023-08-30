@@ -1,17 +1,19 @@
 import React from 'react';
-import { Map, Marker } from 'pigeon-maps';
+import { Map } from 'pigeon-maps';
 
-function Pigeon() {
-  const center = [51.5072, -0.1276]; // London's coordinates
+function Pigeon() { 
 
   return (
-    <Map center={center} zoom={14} width="100%" height="100vh">
-      <Marker anchor={center}>
-        <div style={{ backgroundColor: 'red', color: 'white', padding: '5px', borderRadius: '50%' }}>
-          London
-        </div>
-      </Marker>
-    </Map>
+    <Map 
+      center={[51.5072, -0.1276]} 
+      zoom={6} 
+      width={'100%'} 
+      height={'100%'}
+      provider={(x, y, z) => {
+        const s = String.fromCharCode(97 + ((x + y + z) % 3));
+        return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
+      }}
+    />
   );
 }
 

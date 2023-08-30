@@ -29,7 +29,7 @@ function CombinedMapContent() {
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer}
-        PaperProps={{ style: { overflowY: 'hidden', maxHeight: '100vh', width: '60rem' } }}
+        PaperProps={{ style: { overflowY: 'hidden', maxHeight: '100vh', width: '52rem' } }}
       >
         <StoryContainer toggleDrawer={toggleDrawer} />
       </Drawer>

@@ -2,29 +2,39 @@ import React from 'react';
 import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material';
 
 function FTabs({ storyContent }) { 
+    const flagURL = `https://flagcdn.com/w640/${storyContent.country.toLowerCase()}.png`;
+
     return (  
-        <Box sx={{ marginBottom: '15px', height: 'calc(45vh - 70px)' }}> 
-            <Card sx={{ maxWidth: 345, margin: '0', padding: '30px', boxShadow: 3 }}>
-                <CardActionArea>
+        <Box sx={{ marginBottom: '15px', height: 'calc(45vh - 70px)', width: 345 }}> 
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3 }}>
+                <CardActionArea sx={{ flexGrow: 1 }}>
                     <CardMedia
-                    component="img"
-                    height="140"
-                    image="https://placehold.co/600x400"
-                    alt="green iguana"
+                        component="img"
+                        height="140"
+                        image={flagURL}
+                        alt={`${storyContent.country} flag`}
                     />
-                    <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
-                    </Typography>
+                    <CardContent sx={{ flexGrow: 1, overflow: 'hidden' }}>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {storyContent.country}
+                        </Typography>
+                        <Typography 
+                            variant="body2" 
+                            color="text.secondary"
+                            sx={{ 
+                                display: '-webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 2,  // number of lines you want to display
+                                overflow: 'hidden'
+                            }}
+                        >
+                            {storyContent.story}
+                        </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="primary">
-                    Show Me
+                        Show Me
                     </Button>
                 </CardActions>
             </Card>
@@ -33,3 +43,4 @@ function FTabs({ storyContent }) {
 }
 
 export default FTabs;
+
