@@ -1,29 +1,23 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';  // Important: This imports the default styles
-import L from 'leaflet';  // Import the leaflet library
+import L from 'leaflet';  // Import the leaflet library 
+import { Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';  // Import the icon
 
-// Helper function to extract SVG path from the icon
-function extractSVGPath(icon) {
-    if (icon && icon.props && Array.isArray(icon.props.children)) {
-        for (const child of icon.props.children) {
-            if (child && child.props && child.type && child.type.displayName === "MUISvgIcon") {
-                return child.props.children || '';
-            }
-        }
-    }
-    return '';
-}
+// Get the SVG string of the LocationOn icon and convert it to data URI format
+const svgIcon = <LocationOnIcon style={{ fontSize: 40, color: 'red' }} />; 
+console.log(svgIcon);
 
-const svgIcon = <LocationOnIcon style={{ fontSize: 40, color: 'red' }} />;
-const svgPath = extractSVGPath(svgIcon);
+const svgPath = `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>`;
 
 const svgUrl = encodeURIComponent(`
-  <svg xmlns="http://www.w3.org/2000/svg" width="${svgIcon.props.style.fontSize}" height="${svgIcon.props.style.fontSize}" viewBox="0 0 24 24">
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
     ${svgPath}
   </svg>
 `);
+ 
+
 
 // Define the custom icon
 const customIcon = new L.Icon({
@@ -39,33 +33,41 @@ function LeafletMap({ stories, onMarkerClick }) {
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            
-            {/* This is your test marker */}
-            <Marker position={[21.8518, -102.2877]}>
-                <Popup>
-                    Test Marker
-                </Popup>
-            </Marker>
-
             {stories.map(story => (
                 <Marker 
                   key={story.country} 
                   position={[parseFloat(story.latitude), parseFloat(story.longitude)]}
-                  eventHandlers={{
-                    click: () => {
-                      onMarkerClick(story);
-                    }
-                  }}
+                  icon={customIcon}
                 >
                     <Popup>
-                        <strong>{story.title}</strong>
-                        <p>{story.description}</p>
+                        <div 
+                          onClick={() => onMarkerClick(story)}
+                          style={{ cursor: 'pointer' }}  // Changes the cursor to indicate clickability
+                        >
+                            <Typography variant="h8">{story.name}</Typography>
+                            <Typography 
+                                variant="body2" 
+                                color="text.secondary"
+                                sx={{
+                                    display: '-webkit-box',
+                                    WebkitBoxOrient: 'vertical',
+                                    WebkitLineClamp: 4,  
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    width: '100%'
+                                }}
+                            >
+                                {story.story}
+                            </Typography>
+                        </div>
                     </Popup>
                 </Marker>
             ))}
+            
+            {/* Test Marker */}
+            
         </MapContainer>
     );
 }
-
 
 export default LeafletMap;

@@ -39,3 +39,7 @@
 .mapboxgl-canvas {
   display: block;
 }
+.leaflet-popup-content-wrapper {
+  width: 150px !important;
+  height: 150px !important;
+}
