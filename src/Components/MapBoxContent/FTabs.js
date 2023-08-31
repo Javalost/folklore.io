@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material';
 
-function FTabs({ storyContent }) { 
+function FTabs({ storyContent, toggleDrawer, setMapCenter }) { 
     const flagURL = `https://flagcdn.com/w640/${storyContent.country.toLowerCase()}.png`;
 
-    return (  
+    return (
         <Box sx={{ marginBottom: '15px', height: 'calc(45vh - 70px)', width: 345 }}> 
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3 }}>
                 <CardActionArea sx={{ flexGrow: 1 }}>
@@ -33,7 +33,14 @@ function FTabs({ storyContent }) {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary">
+                    <Button 
+                        size="small" 
+                        color="primary"
+                        onClick={() => {
+                            setMapCenter([parseFloat(storyContent.latitude), parseFloat(storyContent.longitude)]);
+                            toggleDrawer();
+                        }}
+                    >
                         Show Me
                     </Button>
                 </CardActions>
@@ -43,4 +50,3 @@ function FTabs({ storyContent }) {
 }
 
 export default FTabs;
-

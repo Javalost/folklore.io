@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Container, Pagination } from '@mui/material';
 import FTabs from './FTabs.js'; 
-import storiesData from '../../data.js'
+import storiesData from '../../data.js';
 
-function StoryContainer({ toggleDrawer }) {
+function StoryContainer({ toggleDrawer, setMapCenter }) {
     const [page, setPage] = useState(1);
     const itemsPerPage = 4;
-
     const stories = storiesData;
     const totalPages = Math.ceil(stories.length / itemsPerPage);
 
@@ -20,14 +19,14 @@ function StoryContainer({ toggleDrawer }) {
         marginTop: '30px',
         flexDirection: 'column',
         justifyContent: 'space-between'
-      }}>  
-      <Box sx={{
+      }}>
+        <Box sx={{
             display: 'flex',
             gap: '10px',
             marginTop: '10px',
           }}>
             <Pagination count={totalPages} page={page} onChange={(event, value) => setPage(value)} />
-      </Box>
+        </Box>
     
         <Container sx={{ 
             flex: '1',
@@ -39,8 +38,13 @@ function StoryContainer({ toggleDrawer }) {
             overflowY: 'show'
         }}>
             {stories.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((story, index) => (
-              <FTabs key={index} storyContent={story} style={{flex: '1 1 calc(50% - 12px)'}} />
- 
+              <FTabs 
+                key={index} 
+                storyContent={story} 
+                toggleDrawer={toggleDrawer} 
+                setMapCenter={setMapCenter}
+                style={{flex: '1 1 calc(50% - 12px)'}}
+              />
             ))}
         </Container>
     

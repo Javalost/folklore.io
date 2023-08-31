@@ -1,38 +1,37 @@
 import React, { useState } from 'react';
-import { Box, Drawer, Button } from '@mui/material';
-import Pigeon from './Pigeon';
+import { Drawer } from '@mui/material';
 import storiesData from '../../data';
 import StoryContainer from './StoryContainer';
+import FullStory from './FullStory';
+import LeafletMap from './LeafletMap';
 
 function CombinedMapContent() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedStory, setSelectedStory] = useState(null);
+  const [mapCenter, setMapCenter] = useState([21.8518, -102.2877]);  // Initial value
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+  const handleMarkerClick = (story) => {
+    setSelectedStory(story);
+    setDrawerOpen(true);
   };
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <Pigeon stories={storiesData} />
-
-      <Box 
-        style={{ position: 'absolute', top: '10px', left: '35px', zIndex: 1500}}
-      >
-        <Button
-          variant="contained"
-          onClick={toggleDrawer}
-        >
-          {drawerOpen ? "Close Drawer" : "Open Drawer"}
-        </Button>
-      </Box>
-
+      <LeafletMap 
+        stories={storiesData} 
+        onMarkerClick={handleMarkerClick} 
+        center={mapCenter}  // Passing the center to the map
+      />
       <Drawer
         anchor="left"
         open={drawerOpen}
-        onClose={toggleDrawer}
+        onClose={() => { setDrawerOpen(false); setSelectedStory(null); }}
         PaperProps={{ style: { overflowY: 'hidden', maxHeight: '100vh', width: '52rem' } }}
       >
-        <StoryContainer toggleDrawer={toggleDrawer} />
+        {selectedStory ? 
+            <FullStory story={selectedStory} /> : 
+            <StoryContainer toggleDrawer={() => setDrawerOpen(false)} setMapCenter={setMapCenter} />
+        }
       </Drawer>
     </div>
   );
