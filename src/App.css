@@ -39,7 +39,11 @@
 .mapboxgl-canvas {
   display: block;
 }
+/* Override the default styles for the Leaflet popup */
 .leaflet-popup-content-wrapper {
-  width: 150px !important;
-  height: 150px !important;
+  width: auto !important;
+}
+
+.leaflet-popup-content {
+  width: 280px; /* Adjust as per your requirement */
 }

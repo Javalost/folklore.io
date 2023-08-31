@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';  // Important: This imports the default styles
 import L from 'leaflet';  // Import the leaflet library 
-import { Typography } from '@mui/material';
+import { Typography, Avatar } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';  // Import the icon
 
 // Get the SVG string of the LocationOn icon and convert it to data URI format
@@ -41,26 +41,51 @@ function LeafletMap({ stories, onMarkerClick }) {
                 >
                     <Popup>
                         <div 
-                          onClick={() => onMarkerClick(story)}
-                          style={{ cursor: 'pointer' }}  // Changes the cursor to indicate clickability
+                            onClick={() => onMarkerClick(story)}
+                            style={{ 
+                                cursor: 'pointer', 
+                                backgroundColor: '#2979ff',
+                                color: 'white',
+                                border: 'solid 1px black',  
+                                borderRadius: '10px', 
+                                display: 'flex',
+                                justifyContent: 'space-between', 
+                                alignContent: 'center',
+                                padding: '10px 15px', 
+                                width: '260px'  // this is slightly less than 280px considering padding
+                            }}
                         >
-                            <Typography variant="h8">{story.name}</Typography>
+                            <Typography variant="h6" style={{ wordWrap: 'break-word', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '3px' }}>
+                                {story.name}
+                            </Typography> 
+                            <Avatar 
+                                src={`https://flagcdn.com/w640/${story.country.toLowerCase()}.png`}
+                                alt={`${story.country} flag`}
+                                sx={{ width: 40, height: 40 }}
+                            />
+
+                        </div>
+                        <div style={{ backgroundColor: '#yourColorForStory', padding: '8px 10px', width: '260px' }}>
                             <Typography 
                                 variant="body2" 
                                 color="text.secondary"
-                                sx={{
+                                style={{
                                     display: '-webkit-box',
                                     WebkitBoxOrient: 'vertical',
                                     WebkitLineClamp: 4,  
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
-                                    width: '100%'
+                                    width: '100%',
+                                    wordWrap: 'break-word'
                                 }}
                             >
                                 {story.story}
                             </Typography>
                         </div>
                     </Popup>
+
+
+
                 </Marker>
             ))}
             
