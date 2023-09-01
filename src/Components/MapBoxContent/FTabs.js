@@ -53,16 +53,25 @@ function FTabs({ storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button 
-                        size="small" 
-                        color="primary"
-                        onClick={() => {
-                            setMapCenter([parseFloat(storyContent.latitude), parseFloat(storyContent.longitude)]);
-                            toggleDrawer();
-                        }}
-                    >
-                        Show Me
-                    </Button>
+                <Button 
+                    size="small" 
+                    color="primary"
+                    onClick={() => {
+                        const latitude = parseFloat(storyContent.latitude);
+                        const longitude = parseFloat(storyContent.longitude);
+                        setMapCenter([latitude, longitude]);
+                        toggleDrawer(); 
+                    }}
+                    sx={{
+                        '&:hover': {
+                            backgroundColor: 'rgba(0, 92, 210, 0.8)',
+                        },
+                        transition: 'background-color 0.3s',
+                    }}
+                >
+                    Show Me
+                </Button>
+
                 </CardActions>
             </Card>
         </Box>

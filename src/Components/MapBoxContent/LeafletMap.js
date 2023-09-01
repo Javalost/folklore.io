@@ -24,32 +24,34 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -40]
 }); 
 
-function handleMoveEnd(event) {
-    const { lat, lng } = event.target.getCenter();
-    let newLng = lng;
-    
-    while (newLng < -180) {
-        newLng += 360;
-    }
-    
-    while (newLng > 180) {
-        newLng -= 360;
-    }
-    
-    if (lng !== newLng) {
-        event.target.panTo([lat, newLng]);
-    }
-}
+function LeafletMap({ stories, onMarkerClick, mapCenter }) { 
+    console.log('LeafletMap received mapCenter:', mapCenter);
 
-function LeafletMap({ stories, onMarkerClick }) {
+    const handleMoveEnd = (event) => {
+        const { lat, lng } = event.target.getCenter();
+
+        // Ensure that longitude stays within bounds
+        let newLng = lng;
+        if (newLng < -180) {
+            newLng += 360;
+        } else if (newLng > 180) {
+            newLng -= 360;
+        }
+        console.log('Map move end - Current center (Leaflet):', lat, lng);
+        console.log('Map move end - Received mapCenter(Leaflet):', mapCenter);
+        if (lat !== mapCenter[0] || lng !== mapCenter[1]) {
+            event.target.panTo([mapCenter[0], newLng]);
+        }
+    };
+
     return (
         <MapContainer 
-            center={[21.8518, -102.2877]} 
+            center={mapCenter} 
             zoom={6} 
             style={{ width: '100%', height: '100vh' }}
             maxBounds={WORLD_BOUNDS}
             minZoom={4}
-            whenReady={handleMoveEnd}  // Ensuring the callback is used 
+            whenReady={handleMoveEnd}
         >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -79,12 +81,12 @@ function LeafletMap({ stories, onMarkerClick }) {
                             }}
                         >
                             <Typography variant="h6" style={{ wordWrap: 'break-word', marginTop: '3px' }}>
-                                {story.name}
+                                {story.name} 
                             </Typography> 
                             <Avatar 
                                 src={`https://flagcdn.com/w640/${story.country.toLowerCase()}.png`}
                                 alt={`${story.country} flag`}
-                                sx={{ width: 40, height: 40 }}
+                                sx={{ width: 40, height: 40 }} 
                             />
                         </div>
                         <div style={{ backgroundColor: '#f5f5f5', padding: '8px 10px', width: '260px' }}>
