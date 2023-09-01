@@ -1,12 +1,32 @@
 import React from 'react';
-import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material';
+import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material'; 
+import storiesData from '../../data';
 
-function FTabs({ storyContent, toggleDrawer, setMapCenter }) { 
+
+function FTabs({ storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
     const flagURL = `https://flagcdn.com/w640/${storyContent.country.toLowerCase()}.png`;
+
+    const handleTabClick = () => {
+        // Find the index of the story in the storiesData array by its ID
+        const index = storiesData.findIndex(story => story.id === storyContent.id);
+        
+        // Set the located index as the selectedStoryIndex
+        setSelectedStoryIndex(index);
+        
+        if (typeof setDrawerOpen === 'function') {
+            setDrawerOpen(true);
+        }
+        //toggleDrawer(); 
+    }
+    
+    
 
     return (
         <Box sx={{ marginBottom: '15px', height: 'calc(45vh - 70px)', width: 345 }}> 
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3 }}>
+            <Card 
+                onClick={handleTabClick}
+                sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3, borderRadius: '15px' }}
+            >
                 <CardActionArea sx={{ flexGrow: 1 }}>
                     <CardMedia
                         component="img"

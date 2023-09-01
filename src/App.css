@@ -47,3 +47,8 @@
 .leaflet-popup-content {
   width: 280px; /* Adjust as per your requirement */
 }
+.custom-pagination li button {
+  background-color: white!important; 
+  color: blue; 
+  font-weight: bolder;
+}
