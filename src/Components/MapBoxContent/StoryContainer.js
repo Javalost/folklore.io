@@ -48,7 +48,7 @@ function StoryContainer({ toggleDrawer, setMapCenter, setSelectedStoryIndex, set
                     toggleDrawer={toggleDrawer} 
                     setMapCenter={setMapCenter}
                     setSelectedStoryIndex={setSelectedStoryIndex}
-                    setDrawerOpen={setDrawerOpen}
+                    setDrawerOpen={setDrawerOpen} 
                     style={{flex: '1 1 calc(50% - 12px)'}}
                 />
                 

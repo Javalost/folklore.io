@@ -34,7 +34,8 @@ const storiesData = [
     "latitude": "41.3000", 
     "longitude": "-82.0000",
     "id" : "3"
-  }
+  },
+
 ];
 
 export default storiesData;

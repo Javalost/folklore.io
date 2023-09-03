@@ -50,7 +50,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
             zoom={6} 
             style={{ width: '100%', height: '100vh' }}
             maxBounds={WORLD_BOUNDS}
-            minZoom={4}
+            minZoom={3}
             whenReady={handleMoveEnd}
         >
             <TileLayer

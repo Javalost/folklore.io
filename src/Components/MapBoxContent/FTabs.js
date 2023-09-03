@@ -60,7 +60,7 @@ function FTabs({ storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex
                         const latitude = parseFloat(storyContent.latitude);
                         const longitude = parseFloat(storyContent.longitude);
                         setMapCenter([latitude, longitude]);
-                        toggleDrawer(); 
+                        console.log("ive clicked!")
                     }}
                     sx={{
                         '&:hover': {
