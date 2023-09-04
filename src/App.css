@@ -51,4 +51,16 @@
   background-color: white!important; 
   color: blue; 
   font-weight: bolder;
+} 
+/* Add this CSS to your stylesheet */
+::-webkit-scrollbar {
+  width: 0.5em; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: linear-gradient(45deg, #539bfe, #2979ff, #005cd2); /* Color of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Color of the scrollbar track */
 }
