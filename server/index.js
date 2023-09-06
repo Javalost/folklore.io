@@ -1,15 +1,25 @@
+require('dotenv').config({ path: '../.env' });
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-require('dotenv').config();
+
 
 const app = express();
-const port = 3001;
+const port = 3001; 
+
+const corsOptions = { 
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}
+
 
 // Middleware setup
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions)); 
+
+
 
 // Database setup
 const pool = new Pool({
@@ -20,16 +30,53 @@ const pool = new Pool({
     port: process.env.PG_PORT,
 });
 
-// Endpoint to retrieve stories from the 'stories' table
-app.get('/datatest', async (req, res) => {
+// Endpoint to retrieve a specific story from the 'stories' table using its ID
+app.get('/stories', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM stories');
+        // Extract 'country' query parameter from the GET request
+        const country = req.query.country;
+
+        let query;
+        let values;
+
+        // If a country is provided, filter the stories by that country
+        if (country) {
+            query = 'SELECT * FROM stories WHERE country = $1';
+            values = [country];
+        } else {
+            query = 'SELECT * FROM stories';
+        }
+
+        // Execute the SQL query against the database
+        const result = await pool.query(query, values);
+
+        // Send back the results as a JSON response
         res.json(result.rows);
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
     }
 });
+
+app.get('/countries', async (req, res) => {
+    try {
+        // Create a SQL query to fetch unique countries from the stories table
+        const query = 'SELECT DISTINCT country FROM stories';
+
+        // Execute the SQL query against the database
+        const result = await pool.query(query);
+
+        // Convert result to an array of countries
+        const countries = result.rows.map(row => row.country);
+
+        // Send back the results as a JSON response
+        res.json(countries);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 
 app.get('/testform', async (req, res) => {
     try { 

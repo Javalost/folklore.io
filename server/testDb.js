@@ -8,3 +8,5 @@ pool.query('SELECT NOW()', (error, results) => {
   console.log('Connected! Database time:', results.rows[0].now);
   pool.end();  // Close the pool after testing
 });
+
+
