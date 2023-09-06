@@ -5,8 +5,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 
 function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelectedStory }) { 
-  console.log('Inside FullStory - storyIndex:', storyIndex);
-console.log('Inside FullStory - totalStories:', totalStories); 
+
 
   return (
         <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', alignItems:'center' }}> 

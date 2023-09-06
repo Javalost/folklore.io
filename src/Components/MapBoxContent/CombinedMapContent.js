@@ -1,10 +1,12 @@
-// CombinedMapContent.js
 import React, { useState } from 'react';
-import { Drawer, Typography } from '@mui/material';
+import { Drawer, Typography, AppBar, Toolbar, IconButton} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu'
 import storiesData from '../../data';
 import StoryContainer from './StoryContainer';
 import FullStory from './FullStory';
-import LeafletMap from './LeafletMap';
+import LeafletMap from './LeafletMap'; 
+import StoryFilter from './StoryFilter';  // Adjust the path accordingly
+
 
 function CombinedMapContent() {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,6 +31,7 @@ function CombinedMapContent() {
         setTooltipOpen(true); // Re-open the tooltip when the drawer is closed
     };
 
+    //
     const handleSwitchStory = (offset) => {
         const newIndex = selectedStoryIndex + offset;
         if (newIndex >= 0 && newIndex < storiesData.length) {
@@ -39,10 +42,33 @@ function CombinedMapContent() {
             const newLongitude = parseFloat(storiesData[newIndex].longitude);
             setMapCenter([newLatitude, newLongitude]);
         }
+    };  
+
+
+    const handleFilterSubmit = () => {
+        // If you need to process anything after the StoryFilter submission logic, do it here.
     };
 
     return (
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+            <AppBar position="static" style={{ backgroundColor: '#539bfe' }}>
+                <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    
+                    <div>
+                        <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerOpen}>
+                            <MenuIcon />
+                        </IconButton>
+                    </div>
+                    
+                    <div>
+                        <StoryFilter onSubmit={handleFilterSubmit} />
+                    </div>
+                    
+                </Toolbar>
+            </AppBar>
+    
+
+
             <LeafletMap 
                 stories={storiesData} 
                 onMarkerClick={handleMarkerClick}

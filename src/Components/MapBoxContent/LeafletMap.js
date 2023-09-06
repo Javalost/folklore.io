@@ -22,9 +22,9 @@ const customIcon = new L.Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
   popupAnchor: [0, -40]
-}); 
+});
 
-function LeafletMap({ stories, onMarkerClick, mapCenter }) { 
+function LeafletMap({ stories, onMarkerClick, mapCenter }) {
     console.log('LeafletMap received mapCenter:', mapCenter);
 
     const handleMoveEnd = (event) => {
@@ -45,58 +45,59 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
     };
 
     return (
-        <MapContainer 
-            center={mapCenter} 
-            zoom={6} 
+        <MapContainer
+            center={mapCenter}
+            zoom={6}
             style={{ width: '100%', height: '100vh' }}
             maxBounds={WORLD_BOUNDS}
             minZoom={3}
             whenReady={handleMoveEnd}
         >
             <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                noWrap={true}
-            />
+    url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
+    noWrap={true}
+/>
+
 
             {stories.map(story => (
-                <Marker 
-                  key={story.country} 
-                  position={[parseFloat(story.latitude), parseFloat(story.longitude)]}
-                  icon={customIcon}
+                <Marker
+                    key={story.country}
+                    position={[parseFloat(story.latitude), parseFloat(story.longitude)]}
+                    icon={customIcon}
                 >
                     <Popup>
-                        <div 
+                        <div
                             onClick={() => onMarkerClick(story)}
-                            style={{ 
-                                cursor: 'pointer', 
-                                backgroundColor: ' #2979ff',
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: '#2979ff',
                                 color: 'white',
-                                border: 'solid 1px black',  
-                                borderRadius: '10px', 
+                                border: 'solid 1px black',
+                                borderRadius: '10px',
                                 display: 'flex',
-                                justifyContent: 'space-between', 
-                                alignItems: 'center',  // changed from alignContent
-                                padding: '10px 15px', 
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '10px 15px',
                                 width: '260px'
                             }}
                         >
                             <Typography variant="h6" style={{ wordWrap: 'break-word', marginTop: '3px' }}>
-                                {story.name} 
-                            </Typography> 
-                            <Avatar 
+                                {story.name}
+                            </Typography>
+                            <Avatar
                                 src={`https://flagcdn.com/w640/${story.country.toLowerCase()}.png`}
                                 alt={`${story.country} flag`}
-                                sx={{ width: 40, height: 40 }} 
+                                sx={{ width: 40, height: 40 }}
                             />
                         </div>
                         <div style={{ backgroundColor: '#f5f5f5', padding: '8px 10px', width: '260px' }}>
-                            <Typography 
-                                variant="body2" 
+                            <Typography
+                                variant="body2"
                                 color="text.secondary"
                                 style={{
                                     display: '-webkit-box',
                                     WebkitBoxOrient: 'vertical',
-                                    WebkitLineClamp: 4,  
+                                    WebkitLineClamp: 4,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     width: '100%',
