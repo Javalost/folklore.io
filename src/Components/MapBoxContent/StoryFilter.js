@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FormControl, InputLabel, Typography, Select, Button, OutlinedInput, MenuItem } from '@mui/material';
 import axios from 'axios';
 
-function StoryFilter({ onSubmit }) {
+function StoryFilter({ onCountrySelect }) {
   
 
    const [countries, setCountries] = useState([]);
@@ -23,9 +23,8 @@ function StoryFilter({ onSubmit }) {
     }; 
 
     const handleSubmit = () => {
-      alert(`Selected country: ${selectedCountries}`);
-      if (typeof onSubmit === "function") {
-          onSubmit(selectedCountries);  // Pass selected country to callback
+      if (typeof onCountrySelect === "function") {
+          onCountrySelect(selectedCountries);  // Pass selected country to callback
       }
   };
   

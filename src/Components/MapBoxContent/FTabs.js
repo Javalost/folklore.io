@@ -2,15 +2,15 @@ import React from 'react';
 import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material'; 
 
 
-function FTabs({ stories, iso, storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
+function FTabs({iso, storyIndex, storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
+    console.log(`Reported ISO: ${iso}`)
     const flagURL = `https://flagcdn.com/w640/${iso.toLowerCase()}.png`;
 
     const handleTabClick = () => {
         // Find the index of the story in the stories array by its ID
-        const index = stories.findIndex(story => story.id === storyContent.id);
         
         // Set the located index as the selectedStoryIndex
-        setSelectedStoryIndex(index);
+        setSelectedStoryIndex(storyIndex);
         
         if (typeof setDrawerOpen === 'function') {
             setDrawerOpen(true);

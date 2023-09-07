@@ -23,8 +23,8 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                         sx={{ borderRadius: '14px', background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'}}
                         avatar={
                             <Avatar 
-                                src={`https://flagcdn.com/w640/${story.iso.toLowerCase()}.png`} // <- Changed here
-                                alt={`${story.name}'s flag`} // <- Changed the alt description
+                                src={`https://flagcdn.com/w640/${story.iso}.png`}
+                                alt={`${story.name}'s flag`}
                             />
                         }
                         title={

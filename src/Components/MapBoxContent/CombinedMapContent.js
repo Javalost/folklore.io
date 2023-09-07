@@ -125,22 +125,23 @@ function CombinedMapContent() {
                         FOLKLORE 
                     </Typography>
                 </div>
-                {selectedStoryIndex !== null ? 
+                {selectedStoryIndex !== null && selectedStoryIndex >= 0 ? 
                     <FullStory
-                        story={filteredStories[selectedStoryIndex]} 
-                        totalStories={filteredStories.length}
-                        storyIndex={selectedStoryIndex}
-                        onSwitchStory={handleSwitchStory}
-                        setDrawerOpen={setDrawerOpen} 
-                        setSelectedStory={setSelectedStoryIndex} 
-                    /> : 
-                    <StoryContainer 
-                        toggleDrawer={() => setDrawerOpen(false)} 
-                        setMapCenter={setMapCenter} 
-                        storiesData={filteredStories} 
-                        stories={stories}
-                        setSelectedStoryIndex={setSelectedStoryIndex}
-                    />
+                    story={stories[selectedStoryIndex]}
+                    totalStories={filteredStories.length}
+                    storyIndex={selectedStoryIndex}
+                    onSwitchStory={handleSwitchStory}
+                    setDrawerOpen={setDrawerOpen} 
+                    setSelectedStory={setSelectedStoryIndex} 
+                />
+                :
+                <StoryContainer 
+                    toggleDrawer={() => setDrawerOpen(false)} 
+                    setMapCenter={setMapCenter} 
+                    storiesData={filteredStories} 
+                    setSelectedStoryIndex={setSelectedStoryIndex}
+                />
+                
 
                 }
 
