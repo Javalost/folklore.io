@@ -43,7 +43,7 @@ function CombinedMapContent() {
     }, [stories, selectedCountries]);
 
     const handleMarkerClick = (selectedStory) => {
-        const index = stories.findIndex(story => story.name === selectedStory.name);
+        const index = filteredStories.findIndex(story => story.name === selectedStory.name);
         setSelectedStoryIndex(index);
         setDrawerOpen(true);
         setTooltipOpen(false);
@@ -61,15 +61,16 @@ function CombinedMapContent() {
 
     const handleSwitchStory = (offset) => {
         const newIndex = selectedStoryIndex + offset;
-        if (newIndex >= 0 && newIndex < stories.length) {
+        if (newIndex >= 0 && newIndex < filteredStories.length) {
             setSelectedStoryIndex(newIndex);
         
             // Update the map center to the newly selected story's coordinates
-            const newLatitude = parseFloat(stories[newIndex].latitude);
-            const newLongitude = parseFloat(stories[newIndex].longitude);
+            const newLatitude = parseFloat(filteredStories[newIndex].latitude);
+            const newLongitude = parseFloat(filteredStories[newIndex].longitude);
             setMapCenter([newLatitude, newLongitude]);
         }
-    };  
+    };
+    
 
     return (
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
@@ -126,7 +127,7 @@ function CombinedMapContent() {
                 </div>
             {selectedStoryIndex !== null && selectedStoryIndex >= 0 ? 
                 <FullStory
-                    story={stories[selectedStoryIndex]}
+                    story={filteredStories[selectedStoryIndex]}
                     totalStories={filteredStories.length} 
                     storiesData={filteredStories}
                     storyIndex={selectedStoryIndex}
