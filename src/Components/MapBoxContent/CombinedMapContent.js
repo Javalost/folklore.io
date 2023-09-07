@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Drawer, Typography, AppBar, Toolbar, IconButton} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu'
-import storiesData from '../../data';
+import React, { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
+import { Drawer, Typography, AppBar, Toolbar, IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import StoryContainer from './StoryContainer';
 import FullStory from './FullStory';
 import LeafletMap from './LeafletMap'; 
-import StoryFilter from './StoryFilter';  // Adjust the path accordingly
-
+import StoryFilter from './StoryFilter';
 
 function CombinedMapContent() {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -14,8 +13,37 @@ function CombinedMapContent() {
     const [mapCenter, setMapCenter] = useState([21.8518, -102.2877]);
     const [tooltipOpen, setTooltipOpen] = useState(true);
 
+    // Fetch All Stories from Database 
+    const [stories, setStories] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/stories')
+            .then(response => {
+                setStories(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching stories:", error);
+            });
+    }, []);
+
+    // Extract a unique list of countries from the stories data
+    const countries = useMemo(() => {
+        const uniqueCountries = new Set(stories.map(story => story.country));
+        return [...uniqueCountries];
+    }, [stories]);
+
+    // Filtering Stories
+    const [selectedCountries, setSelectedCountries] = useState([]);
+
+    const filteredStories = useMemo(() => {
+        if (selectedCountries.length > 0) {
+            return stories.filter(story => selectedCountries.includes(story.country));
+        } 
+        return stories;
+    }, [stories, selectedCountries]);
+
     const handleMarkerClick = (selectedStory) => {
-        const index = storiesData.findIndex(story => story.name === selectedStory.name);
+        const index = stories.findIndex(story => story.name === selectedStory.name);
         setSelectedStoryIndex(index);
         setDrawerOpen(true);
         setTooltipOpen(false);
@@ -31,23 +59,17 @@ function CombinedMapContent() {
         setTooltipOpen(true); // Re-open the tooltip when the drawer is closed
     };
 
-    //
     const handleSwitchStory = (offset) => {
         const newIndex = selectedStoryIndex + offset;
-        if (newIndex >= 0 && newIndex < storiesData.length) {
+        if (newIndex >= 0 && newIndex < stories.length) {
             setSelectedStoryIndex(newIndex);
         
             // Update the map center to the newly selected story's coordinates
-            const newLatitude = parseFloat(storiesData[newIndex].latitude);
-            const newLongitude = parseFloat(storiesData[newIndex].longitude);
+            const newLatitude = parseFloat(stories[newIndex].latitude);
+            const newLongitude = parseFloat(stories[newIndex].longitude);
             setMapCenter([newLatitude, newLongitude]);
         }
     };  
-
-
-    const handleFilterSubmit = () => {
-        // If you need to process anything after the StoryFilter submission logic, do it here.
-    };
 
     return (
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
@@ -61,20 +83,22 @@ function CombinedMapContent() {
                     </div>
                     
                     <div>
-                        <StoryFilter onSubmit={handleFilterSubmit} />
+                        <StoryFilter 
+                            countries={countries}
+                            onCountrySelect={setSelectedCountries}
+                        />
                     </div>
                     
                 </Toolbar>
             </AppBar>
-    
-
 
             <LeafletMap 
-                stories={storiesData} 
+                stories={filteredStories} 
                 onMarkerClick={handleMarkerClick}
                 mapCenter={mapCenter}
                 tooltipOpen={tooltipOpen}
             />
+
             <Drawer
                 anchor="left"
                 open={drawerOpen}
@@ -97,14 +121,14 @@ function CombinedMapContent() {
                         variant='h5'
                         color='white'
                         sx={{fontWeight:'bolder'}}
-                    > 
+                    > *
                         FOLKLORE 
                     </Typography>
                 </div>
                 {selectedStoryIndex !== null ? 
-                    <FullStory 
-                        story={storiesData[selectedStoryIndex]} 
-                        totalStories={storiesData.length}
+                    <FullStory
+                        story={filteredStories[selectedStoryIndex]} 
+                        totalStories={filteredStories.length}
                         storyIndex={selectedStoryIndex}
                         onSwitchStory={handleSwitchStory}
                         setDrawerOpen={setDrawerOpen} 
@@ -113,10 +137,13 @@ function CombinedMapContent() {
                     <StoryContainer 
                         toggleDrawer={() => setDrawerOpen(false)} 
                         setMapCenter={setMapCenter} 
-                        storiesData={storiesData} 
+                        storiesData={filteredStories} 
+                        stories={stories}
                         setSelectedStoryIndex={setSelectedStoryIndex}
                     />
+
                 }
+
             </Drawer>
         </div>
     );

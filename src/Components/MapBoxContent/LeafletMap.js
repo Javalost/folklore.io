@@ -85,7 +85,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
                                 {story.name}
                             </Typography>
                             <Avatar
-                                src={`https://flagcdn.com/w640/${story.country.toLowerCase()}.png`}
+                                src={`https://flagcdn.com/w640/${story.iso.toLowerCase()}.png`}
                                 alt={`${story.country} flag`}
                                 sx={{ width: 40, height: 40 }}
                             />

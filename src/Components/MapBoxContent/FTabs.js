@@ -1,14 +1,13 @@
 import React from 'react';
 import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, Button, Card } from '@mui/material'; 
-import storiesData from '../../data';
 
 
-function FTabs({ storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
-    const flagURL = `https://flagcdn.com/w640/${storyContent.country.toLowerCase()}.png`;
+function FTabs({ stories, iso, storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
+    const flagURL = `https://flagcdn.com/w640/${iso.toLowerCase()}.png`;
 
     const handleTabClick = () => {
-        // Find the index of the story in the storiesData array by its ID
-        const index = storiesData.findIndex(story => story.id === storyContent.id);
+        // Find the index of the story in the stories array by its ID
+        const index = stories.findIndex(story => story.id === storyContent.id);
         
         // Set the located index as the selectedStoryIndex
         setSelectedStoryIndex(index);
@@ -36,7 +35,7 @@ function FTabs({ storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex
                     />
                     <CardContent sx={{ flexGrow: 1, overflow: 'hidden' }}>
                         <Typography gutterBottom variant="h5" component="div">
-                            {storyContent.country}
+                            {storyContent.name}
                         </Typography>
                         <Typography 
                             variant="body2" 

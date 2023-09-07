@@ -3,10 +3,7 @@ import { Card, CardContent, CardHeader, Avatar, Typography, Box, Button, IconBut
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
-
 function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelectedStory }) { 
-
-
   return (
         <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', alignItems:'center' }}> 
             <Box sx={{display: 'flex', flexDirection:'row', alignItems:'center', gap: '15px'}}> 
@@ -26,8 +23,8 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                         sx={{ borderRadius: '14px', background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'}}
                         avatar={
                             <Avatar 
-                                src={`https://flagcdn.com/w640/${story.country.toLowerCase()}.png`}
-                                alt={`${story.country} flag`}
+                                src={`https://flagcdn.com/w640/${story.iso.toLowerCase()}.png`} // <- Changed here
+                                alt={`${story.name}'s flag`} // <- Changed the alt description
                             />
                         }
                         title={
@@ -77,9 +74,5 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
         </Box>
     );
 } 
-
-//<Button variant="contained" onClick={() => onSwitchStory(-1)}>Previous</Button> 
-//<Button variant="contained" onClick={() => onSwitchStory(1)}>Next</Button>
-
 
 export default FullStory;
