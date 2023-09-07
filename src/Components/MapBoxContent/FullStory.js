@@ -23,7 +23,7 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                         sx={{ borderRadius: '14px', background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'}}
                         avatar={
                             <Avatar 
-                                src={`https://flagcdn.com/w640/${story.iso}.png`}
+                                src={`https://flagcdn.com/w640/${story.iso.toLowerCase()}.png`}
                                 alt={`${story.name}'s flag`}
                             />
                         }
@@ -43,7 +43,9 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                             variant="body1"
                             color="text.secondary"
                             paragraph
-                            overflowY="auto"
+                            sx={{
+                            overflowY:"auto" 
+                            }}
                         >
                             {story.story}
                         </Typography>

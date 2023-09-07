@@ -25,7 +25,6 @@ const customIcon = new L.Icon({
 });
 
 function LeafletMap({ stories, onMarkerClick, mapCenter }) {
-    console.log('LeafletMap received mapCenter:', mapCenter);
 
     const handleMoveEnd = (event) => {
         const { lat, lng } = event.target.getCenter();
@@ -61,7 +60,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
 
             {stories.map(story => (
                 <Marker
-                    key={story.country}
+                    key={story.id}
                     position={[parseFloat(story.latitude), parseFloat(story.longitude)]}
                     icon={customIcon}
                 >

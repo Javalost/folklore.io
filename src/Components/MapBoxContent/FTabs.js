@@ -3,7 +3,6 @@ import { Box, Typography, CardActionArea, CardMedia, CardContent, CardActions, B
 
 
 function FTabs({iso, storyIndex, storyContent, toggleDrawer, setMapCenter, setSelectedStoryIndex, setDrawerOpen }) { 
-    console.log(`Reported ISO: ${iso}`)
     const flagURL = `https://flagcdn.com/w640/${iso.toLowerCase()}.png`;
 
     const handleTabClick = () => {

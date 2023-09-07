@@ -8,9 +8,6 @@ function StoryContainer({ storiesData, toggleDrawer, setMapCenter, setSelectedSt
 
     const totalPages = Math.ceil(storiesData.length / itemsPerPage);
 
-    console.log(`total pages: ${totalPages}`);
-    console.log("storiesISOS:", storiesData.map(story => story.iso));
-
     return ( 
         <Container sx={{ 
             padding: '2rem', 

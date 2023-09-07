@@ -9,7 +9,7 @@ import StoryFilter from './StoryFilter';
 
 function CombinedMapContent() {
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+    const [selectedStoryIndex, setSelectedStoryIndex] = useState(null);
     const [mapCenter, setMapCenter] = useState([21.8518, -102.2877]);
     const [tooltipOpen, setTooltipOpen] = useState(true);
 
@@ -102,17 +102,16 @@ function CombinedMapContent() {
             <Drawer
                 anchor="left"
                 open={drawerOpen}
-                onOpen={handleDrawerOpen}
                 onClose={handleDrawerClose}
                 PaperProps={{ 
-                    style: { 
+                    style: {
                         overflowY: 'hidden', 
                         overflowX: 'hidden', 
                         maxHeight: '100vh', 
                         width: '52rem', 
                         borderRadius: '15px', 
                         background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'
-                    } 
+                    }
                 }}
             >
                 <div style={{ height: '8rem', borderRadius: '15px', backgroundColor: 'inherit' }}> 
@@ -125,10 +124,11 @@ function CombinedMapContent() {
                         FOLKLORE 
                     </Typography>
                 </div>
-                {selectedStoryIndex !== null && selectedStoryIndex >= 0 ? 
-                    <FullStory
+            {selectedStoryIndex !== null && selectedStoryIndex >= 0 ? 
+                <FullStory
                     story={stories[selectedStoryIndex]}
-                    totalStories={filteredStories.length}
+                    totalStories={filteredStories.length} 
+                    storiesData={filteredStories}
                     storyIndex={selectedStoryIndex}
                     onSwitchStory={handleSwitchStory}
                     setDrawerOpen={setDrawerOpen} 
