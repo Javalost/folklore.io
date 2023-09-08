@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Typography, Avatar, Box } from '@mui/material';
+import { Typography, Avatar } from '@mui/material';
 
 const WORLD_BOUNDS = [
     [-85, -180],
