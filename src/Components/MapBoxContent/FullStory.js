@@ -18,7 +18,7 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                 >
                     <ArrowLeftIcon style={{ fontSize: 24, color: 'white' }} />
                 </IconButton> 
-                <Card elevation={3} sx={{borderRadius: '15px', width: '35rem', height: '35rem', display: 'flex', flexDirection: 'column'}}>
+                <Card elevation={3} sx={{borderRadius: '15px', width: '35rem', height: '35rem', display: 'flex', flexDirection: 'column', backgroundColor: '#13120f'}}>
                     <CardHeader
                         sx={{ borderRadius: '14px', background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'}}
                         avatar={
@@ -44,13 +44,14 @@ function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelected
                             color="text.secondary"
                             paragraph
                             sx={{
-                            overflowY:"auto" 
+                            overflowY:"auto", 
+                            color: 'white'
                             }}
                         >
                             {story.story}
                         </Typography>
                     </CardContent>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent:'flex-end', height: '3rem', padding: 2 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent:'flex-end', height: '3rem', padding: 2, color:'white'}}>
                         <Typography>{storyIndex + 1} of {totalStories}</Typography>
                     </Box>
                 </Card>

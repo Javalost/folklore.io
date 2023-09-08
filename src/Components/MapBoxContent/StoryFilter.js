@@ -37,20 +37,21 @@ function StoryFilter({ onCountrySelect }) {
         <FormControl sx={{ m: 1, width: 150 }}>
             <InputLabel 
                 id="select-country-label" 
-                sx={{color: 'white',
+                sx={{border: 'white',
+                    color: 'white',
                 '&.Mui-focused': { 
-                    color: 'gray',
+                    color: 'white',
                 }}}
                 shrink={true}>
                 Countries
             </InputLabel>
             <Select
                 labelId="select-country-label"
-                id="select-country"
+                id="select-country-label"
                 multiple
                 value={selectedCountries}
                 onChange={handleChange}
-                input={<OutlinedInput label="Countries" style={{ height: '36px', boxSizing: 'border-box' }} />}
+                input={<OutlinedInput label="Countries" style={{ height: '36px', color: 'white', boxSizing: 'border-box' }} />}
             >
                 {countries.map((country, index) => (
                     <MenuItem key={index} value={country}>

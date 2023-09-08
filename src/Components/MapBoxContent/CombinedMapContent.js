@@ -74,7 +74,7 @@ function CombinedMapContent() {
 
     return (
         <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-            <AppBar position="static" style={{ backgroundColor: '#539bfe' }}>
+            <AppBar position="static" style={{ backgroundColor: '#2045a5' }}>
                 <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
                     
                     <div>
@@ -111,7 +111,7 @@ function CombinedMapContent() {
                         maxHeight: '100vh', 
                         width: '52rem', 
                         borderRadius: '15px', 
-                        background: 'linear-gradient(45deg, #539bfe, #2979ff, #005cd2)'
+                        background: '#2045a5'
                     }
                 }}
             >

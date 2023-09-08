@@ -22,12 +22,13 @@ function StoryContainer({ storiesData, toggleDrawer, setMapCenter, setSelectedSt
                 display: 'flex',
                 gap: '10px',
                 marginTop: '0',
+                
             }}>
                 <Pagination 
                   count={totalPages} 
                   page={page} 
                   onChange={(event, value) => setPage(value)} 
-                  classes={{ul : 'custom-pagination'}}
+                  classes={{ul : 'custom-pagination'}} 
                 />
             </Box>
         

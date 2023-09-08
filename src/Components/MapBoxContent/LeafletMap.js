@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Typography, Avatar } from '@mui/material';
+import { Typography, Avatar, Box } from '@mui/material';
 
 const WORLD_BOUNDS = [
     [-85, -180],
@@ -47,7 +47,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
         <MapContainer
             center={mapCenter}
             zoom={6}
-            style={{ width: '100%', height: '100vh' }}
+            style={{ width: '100%', height: `calc(100vh - 67px)` }} // Increase this value slightly
             maxBounds={WORLD_BOUNDS}
             minZoom={3}
             whenReady={handleMoveEnd}
@@ -64,7 +64,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
                     position={[parseFloat(story.latitude), parseFloat(story.longitude)]}
                     icon={customIcon}
                 >
-                    <Popup>
+                    <Popup >
                         <div
                             onClick={() => onMarkerClick(story)}
                             style={{
@@ -105,7 +105,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
                             >
                                 {story.story}
                             </Typography>
-                        </div>
+                        </div> 
                     </Popup>
                 </Marker>
             ))}

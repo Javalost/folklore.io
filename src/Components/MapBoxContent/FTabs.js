@@ -23,7 +23,7 @@ function FTabs({iso, storyIndex, storyContent, toggleDrawer, setMapCenter, setSe
         <Box sx={{ marginBottom: '15px', height: 'calc(45vh - 70px)', width: 345 }}> 
             <Card 
                 onClick={handleTabClick}
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column', boxShadow: 3, borderRadius: '15px' }}
+                sx={{ height: '100%', display: 'flex', backgroundColor: '#303133',flexDirection: 'column', boxShadow: 3, borderRadius: '15px' }}
             >
                 <CardActionArea sx={{ flexGrow: 1 }}>
                     <CardMedia
@@ -33,7 +33,7 @@ function FTabs({iso, storyIndex, storyContent, toggleDrawer, setMapCenter, setSe
                         alt={`${storyContent.country} flag`}
                     />
                     <CardContent sx={{ flexGrow: 1, overflow: 'hidden' }}>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h5" component="div" sx={{color: 'white'}}>
                             {storyContent.name}
                         </Typography>
                         <Typography 
@@ -43,7 +43,8 @@ function FTabs({iso, storyIndex, storyContent, toggleDrawer, setMapCenter, setSe
                                 display: '-webkit-box',
                                 WebkitBoxOrient: 'vertical',
                                 WebkitLineClamp: 2,  // number of lines you want to display
-                                overflow: 'hidden'
+                                overflow: 'hidden', 
+                                color:'white'
                             }}
                         >
                             {storyContent.story}
