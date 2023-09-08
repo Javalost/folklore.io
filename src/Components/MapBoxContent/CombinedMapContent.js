@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { Drawer, Typography, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Drawer, Typography, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import StoryContainer from './StoryContainer';
 import FullStory from './FullStory';
@@ -115,15 +115,22 @@ function CombinedMapContent() {
                     }
                 }}
             >
-                <div style={{ height: '8rem', borderRadius: '15px', backgroundColor: 'inherit' }}> 
+                <div style={{ height: '8rem', borderRadius: '15px', backgroundColor: 'inherit', display: 'flex', justifyContent: 'space-between', marginRight: '15px'}}> 
                     <Typography
                         padding='15px'
                         variant='h5'
                         color='white'
                         sx={{fontWeight:'bolder'}}
-                    > *
+                    > 
                         FOLKLORE 
                     </Typography>
+                    <Button
+                        href="/signin"
+                        sx={{backgroundColor:'inherit', color:'white'}}
+                    >
+                        Sign In
+                    </Button>
+
                 </div>
             {selectedStoryIndex !== null && selectedStoryIndex >= 0 ? 
                 <FullStory

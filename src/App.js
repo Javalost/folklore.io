@@ -7,7 +7,8 @@ import {
 import './App.css';
 
 import Landing from './Components/LandingPage/Landing';
-import CombinedMapContent from './Components/MapBoxContent/CombinedMapContent'
+import CombinedMapContent from './Components/MapBoxContent/CombinedMapContent' 
+import SignIn from './Components/SignInContent/SignIn';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing/>} />
           <Route path="/mapbox" element={<CombinedMapContent/>}/>
+          <Route path="/signin" element={<SignIn/>}/>
+          
         </Routes>
       </div>
     </Router>
