@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '../.env' });
 
+const bcrypt = require('bcrypt');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
@@ -28,6 +29,24 @@ const pool = new Pool({
     database: process.env.PG_DATABASE,
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT,
+});
+
+app.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        // Hash the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert user into the database
+        await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
+        
+        res.send('User registered successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
 });
 
 // Endpoint to retrieve a specific story from the 'stories' table using its ID
