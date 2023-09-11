@@ -21,52 +21,50 @@ function SignUp() {
 
   const [passwordError, setPasswordError] = useState(false);
   const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const [isVerified, setIsVerified] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (event) => { 
+  const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (!recaptchaValue) {
       console.error("Please verify the reCAPTCHA");
       return;
     }
-  
+
     if (formData.password !== formData.confirmPassword) {
       setPasswordError(true);
       return;
     }
-  
+
     setPasswordError(false);
-  
+
     try {
       const response = await axios.post('http://localhost:3001/register', {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          recaptcha: recaptchaValue
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        recaptcha: recaptchaValue
       }, {
-          timeout: 5000 // Timeout after 5 seconds (5000 milliseconds)
+        timeout: 5000 // Timeout after 5 seconds
       });
-  
+
       if (response.status === 200) {
-          console.log("User registered successfully");
+        console.log("User registered successfully");
       } else {
-          console.error("Error registering the user");
+        console.error("Error registering the user");
       }
-  } catch (error) {
+    } catch (error) {
       if (error.code === 'ECONNABORTED') {
-          console.error("Request took too long and timed out");
+        console.error("Request took too long and timed out");
       } else {
-          console.error("There was an error sending the data:", error);
+        console.error("There was an error sending the data:", error);
       }
-  }
-  
-  
+    }
+
     setFormData({
       username: '',
       email: '',
@@ -75,11 +73,9 @@ function SignUp() {
     });
   };
 
-  const handleRecaptcha = (value) => {
+  const handleRecaptcha = (value) => { 
+    console.log("Recaptcha value:", value);
     setRecaptchaValue(value);
-    if (value) {
-      setIsVerified(true);
-    }
   }
 
   return (
@@ -119,99 +115,101 @@ function SignUp() {
             color: '#2045a5',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',   // Align children to center
-            justifyContent: 'center' // Vertically center children
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
-        {isVerified ? (
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel htmlFor="username" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
-                USERNAME
-              </InputLabel>
-              <TextField
-                data-testid="username-input"
-                id="username"
-                name="username"
-                variant="outlined"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
+          {recaptchaValue ? (
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel htmlFor="username" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
+                  USERNAME
+                </InputLabel>
+                <TextField
+                  data-testid="username-input"
+                  id="username"
+                  name="username"
+                  variant="outlined"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
 
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel htmlFor="email" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
-                EMAIL
-              </InputLabel>
-              <TextField
-                data-testid="email-input"
-                id="email"
-                name="email"
-                type="email"
-                variant="outlined"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel htmlFor="email" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
+                  EMAIL
+                </InputLabel>
+                <TextField
+                  data-testid="email-input"
+                  id="email"
+                  name="email"
+                  type="email"
+                  variant="outlined"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
 
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel htmlFor="password" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
-                PASSWORD
-              </InputLabel>
-              <TextField
-                data-testid="password-input"
-                id="password"
-                name="password"
-                type="password"
-                variant="outlined"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                error={passwordError}
-              />
-            </FormControl>
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel htmlFor="password" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
+                  PASSWORD
+                </InputLabel>
+                <TextField
+                  data-testid="password-input"
+                  id="password"
+                  name="password"
+                  type="password"
+                  variant="outlined"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  error={passwordError}
+                />
+              </FormControl>
 
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel htmlFor="confirmPassword" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
-                RE-ENTER PASSWORD
-              </InputLabel>
-              <TextField
-                data-testid="confirmPassword-input"
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                variant="outlined"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                error={passwordError}
-                helperText={passwordError ? "Passwords do not match" : ""}
-              />
-            </FormControl>
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel htmlFor="confirmPassword" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
+                  RE-ENTER PASSWORD
+                </InputLabel>
+                <TextField
+                  data-testid="confirmPassword-input"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  variant="outlined"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  error={passwordError}
+                  helperText={passwordError ? "Passwords do not match" : ""}
+                />
+              </FormControl>
 
-            <Button
-              data-testid="submit-button"
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: '#ff7f50',
-              }}
-            >
-              Sign Up
-            </Button>
-          </form>
-        ) : (
-          <ReCAPTCHA
-            sitekey="6Lf76xYoAAAAALXpxMo3LHgMtYiRzFkYqGoC61uu"
-            onChange={handleRecaptcha}
-          />
-        )}
+              <Button
+                data-testid="submit-button"
+                type="submit"
+                variant="contained"
+                sx={{
+                  backgroundColor: '#ff7f50',
+                }}
+              >
+                Sign Up
+              </Button>
+            </form>
+          ) : (
+            <ReCAPTCHA
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+              onChange={handleRecaptcha}
+            />
+          )}
         </Card>
       </Box>
     </div>
   );
+  //RECAPTCHA_SECRET_KEY 
+  //REACT_APP_RECAPTCHA_SITE_KEY
 }
 
 export default SignUp;
