@@ -26,7 +26,8 @@ function SignUp() {
   };
   
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { 
+    console.log("handleSubmit triggered"); 
     event.preventDefault();
   
     if (formData.password !== formData.confirmPassword) {
