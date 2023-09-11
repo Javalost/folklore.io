@@ -73,9 +73,13 @@ function SignUp() {
     });
   };
 
-  const handleRecaptcha = (value) => {
+  const handleRecaptcha = (value) => { 
+    console.log("Recaptcha value:", value);
     setRecaptchaValue(value);
   }
+
+  console.log("reCAPTCHA Key:", process.env.REACT_APP_RECAPTCHA_SITE_KEY);
+
 
   return (
     <div style={{ margin: '0', padding: '0' }}>
