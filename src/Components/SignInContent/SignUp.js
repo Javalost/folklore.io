@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import ReCAPTCHA from "react-google-recaptcha";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -19,16 +20,21 @@ function SignUp() {
   });
 
   const [passwordError, setPasswordError] = useState(false);
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-  
 
   const handleSubmit = async (event) => { 
-    console.log("handleSubmit triggered"); 
     event.preventDefault();
+  
+    if (!recaptchaValue) {
+      console.error("Please verify the reCAPTCHA");
+      return;
+    }
   
     if (formData.password !== formData.confirmPassword) {
       setPasswordError(true);
@@ -38,20 +44,28 @@ function SignUp() {
     setPasswordError(false);
   
     try {
-        const response = await axios.post('http://localhost:3001/register', {
-            username: formData.username,
-            email: formData.email,
-            password: formData.password
-        });
+      const response = await axios.post('http://localhost:3001/register', {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          recaptcha: recaptchaValue
+      }, {
+          timeout: 5000 // Timeout after 5 seconds (5000 milliseconds)
+      });
   
-        if (response.status === 200) {
-            console.log("User registered successfully");
-        } else {
-            console.error("Error registering the user");
-        }
-    } catch (error) {
-        console.error("There was an error sending the data:", error);
-    }
+      if (response.status === 200) {
+          console.log("User registered successfully");
+      } else {
+          console.error("Error registering the user");
+      }
+  } catch (error) {
+      if (error.code === 'ECONNABORTED') {
+          console.error("Request took too long and timed out");
+      } else {
+          console.error("There was an error sending the data:", error);
+      }
+  }
+  
   
     setFormData({
       username: '',
@@ -60,6 +74,13 @@ function SignUp() {
       confirmPassword: '',
     });
   };
+
+  const handleRecaptcha = (value) => {
+    setRecaptchaValue(value);
+    if (value) {
+      setIsVerified(true);
+    }
+  }
 
   return (
     <div style={{ margin: '0', padding: '0' }}>
@@ -96,18 +117,16 @@ function SignUp() {
             padding: '20px',
             backgroundColor: '#ffffff',
             color: '#2045a5',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',   // Align children to center
+            justifyContent: 'center' // Vertically center children
           }}
         >
-          <form onSubmit={handleSubmit}>
+        {isVerified ? (
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel
-                htmlFor="username"
-                shrink={true}
-                style={{
-                  color: '#2045a5',
-                  transform: 'translate(0, -22px)',
-                }}
-              >
+              <InputLabel htmlFor="username" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
                 USERNAME
               </InputLabel>
               <TextField
@@ -122,14 +141,7 @@ function SignUp() {
             </FormControl>
 
             <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel
-                htmlFor="email"
-                shrink={true}
-                style={{
-                  color: '#2045a5',
-                  transform: 'translate(0, -22px)',
-                }}
-              >
+              <InputLabel htmlFor="email" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
                 EMAIL
               </InputLabel>
               <TextField
@@ -145,14 +157,7 @@ function SignUp() {
             </FormControl>
 
             <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel
-                htmlFor="password"
-                shrink={true}
-                style={{
-                  color: '#2045a5',
-                  transform: 'translate(0, -22px)',
-                }}
-              >
+              <InputLabel htmlFor="password" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
                 PASSWORD
               </InputLabel>
               <TextField
@@ -169,14 +174,7 @@ function SignUp() {
             </FormControl>
 
             <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel
-                htmlFor="confirmPassword"
-                shrink={true}
-                style={{
-                  color: '#2045a5',
-                  transform: 'translate(0, -22px)',
-                }}
-              >
+              <InputLabel htmlFor="confirmPassword" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
                 RE-ENTER PASSWORD
               </InputLabel>
               <TextField
@@ -204,6 +202,12 @@ function SignUp() {
               Sign Up
             </Button>
           </form>
+        ) : (
+          <ReCAPTCHA
+            sitekey="6Lf76xYoAAAAALXpxMo3LHgMtYiRzFkYqGoC61uu"
+            onChange={handleRecaptcha}
+          />
+        )}
         </Card>
       </Box>
     </div>
