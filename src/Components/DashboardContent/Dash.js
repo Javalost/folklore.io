@@ -11,7 +11,7 @@ function Dash() {
                 <Box 
                     sx = {{display: 'flex', justifyContent:'space-between'}}>
 
-                    <Box sx= {{border: 'solid', width: '50vh', display: 'flex', alignItems:'center', gap: '7px'}}>
+                    <Box sx= {{ width: '50vh', display: 'flex', alignItems:'center', gap: '7px'}}>
                         <Dashboard 
                             fontSize='large'
                         /> 
