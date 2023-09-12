@@ -8,8 +8,8 @@ import './App.css';
 
 import Landing from './Components/LandingPage/Landing';
 import CombinedMapContent from './Components/MapBoxContent/CombinedMapContent' 
-import SignUp from './Components/SignInContent/SignUp'; 
-
+import SignUp from './Components/SignUpContent/SignUp'; 
+import Dash from './Components/DashboardContent/Dash.js'
 
 function App() {
   return (
@@ -18,8 +18,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing/>} />
           <Route path="/mapbox" element={<CombinedMapContent/>}/>
-          <Route path="/signin" element={<SignUp/>}/>
-          
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/dashboard" element={<Dash/>}/>
         </Routes>
       </div>
     </Router>

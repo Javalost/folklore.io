@@ -36,16 +36,18 @@ const pool = new Pool({
     port: process.env.PG_PORT,
 });
 
-console.log("Database pool created");
+console.log("Database pool created"); 
+
+
 
 app.post('/register', async (req, res) => {
     console.log("/register endpoint hit");
     const { username, email, password, recaptcha } = req.body;
     console.log(`Request body destructured + ${recaptcha}`);
 
-    const recaptchaSecretKey = process.env.PG_RECAPTCHA_KEY;
+    const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
     const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptcha}`;
-
+    console.log({recaptchaSecretKey})
     const recaptchaResponse = await axios.post(verificationURL);
     if (!recaptchaResponse.data.success) {
         return res.status(400).send('reCAPTCHA verification failed');
