@@ -49,7 +49,7 @@ function SignUp() {
         password: formData.password,
         recaptcha: recaptchaValue
       }, {
-        timeout: 5000 // Timeout after 5 seconds
+        timeout: 1000 // Timeout after 5 seconds
       });
 
       if (response.status === 200) {
@@ -77,8 +77,6 @@ function SignUp() {
     console.log("Recaptcha value:", value);
     setRecaptchaValue(value);
   }
-
-  console.log("reCAPTCHA Key:", process.env.REACT_APP_RECAPTCHA_SITE_KEY);
 
 
   return (

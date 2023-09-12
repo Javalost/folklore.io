@@ -41,7 +41,7 @@ console.log("Database pool created");
 app.post('/register', async (req, res) => {
     console.log("/register endpoint hit");
     const { username, email, password, recaptcha } = req.body;
-    console.log("Request body destructured");
+    console.log(`Request body destructured + ${recaptcha}`);
 
     const recaptchaSecretKey = process.env.PG_RECAPTCHA_KEY;
     const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptcha}`;
