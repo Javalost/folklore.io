@@ -9,7 +9,8 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import ReCAPTCHA from "react-google-recaptcha";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -20,67 +21,64 @@ function SignUp() {
   });
 
   const [passwordError, setPasswordError] = useState(false);
-  const [recaptchaValue, setRecaptchaValue] = useState(null);
-  const [isVerified, setIsVerified] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (event) => { 
-    event.preventDefault();
-  
-    if (!recaptchaValue) {
-      console.error("Please verify the reCAPTCHA");
-      return;
-    }
-  
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError(true);
-      return;
-    }
-  
-    setPasswordError(false);
-  
-    try {
-      const response = await axios.post('http://localhost:3001/register', {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          recaptcha: recaptchaValue
-      }, {
-          timeout: 5000 // Timeout after 5 seconds (5000 milliseconds)
-      });
-  
-      if (response.status === 200) {
-          console.log("User registered successfully");
-      } else {
-          console.error("Error registering the user");
-      }
-  } catch (error) {
-      if (error.code === 'ECONNABORTED') {
-          console.error("Request took too long and timed out");
-      } else {
-          console.error("There was an error sending the data:", error);
-      }
-  }
-  
-  
-    setFormData({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
-  };
+const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
 
-  const handleRecaptcha = (value) => {
-    setRecaptchaValue(value);
-    if (value) {
-      setIsVerified(true);
-    }
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  if (formData.password !== formData.confirmPassword) {
+    setPasswordError(true);
+    return;
   }
+
+  setPasswordError(false);
+
+  // Redirect to Auth0's signup page
+  loginWithRedirect({
+    screen_hint: 'signup',
+    initialScreen: 'signUp',
+    email: formData.email,
+    password: formData.password,
+  });
+
+  try {
+    // Get the access token using Auth0's hook method
+    const token = await getAccessTokenSilently();  // This function comes from useAuth0
+
+    // Now, use this token in your request's Authorization header
+    const response = await axios.post('http://localhost:3001/store-user-data', {
+      username: formData.username  // Send username to the backend
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (response.status === 200) {
+      console.log("User data stored successfully");
+    } else {
+      console.error("Error storing user data");
+    }
+  } catch (error) {
+    console.error("There was an error:", error);
+  }
+
+  setFormData({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+};
+
+
+
 
   return (
     <div style={{ margin: '0', padding: '0' }}>
@@ -119,18 +117,16 @@ function SignUp() {
             color: '#2045a5',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',   // Align children to center
-            justifyContent: 'center' // Vertically center children
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
-        {isVerified ? (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <FormControl fullWidth variant="outlined" margin="normal">
               <InputLabel htmlFor="username" shrink={true} style={{ color: '#2045a5', transform: 'translate(0, -22px)' }}>
                 USERNAME
               </InputLabel>
               <TextField
-                data-testid="username-input"
                 id="username"
                 name="username"
                 variant="outlined"
@@ -145,7 +141,6 @@ function SignUp() {
                 EMAIL
               </InputLabel>
               <TextField
-                data-testid="email-input"
                 id="email"
                 name="email"
                 type="email"
@@ -161,7 +156,6 @@ function SignUp() {
                 PASSWORD
               </InputLabel>
               <TextField
-                data-testid="password-input"
                 id="password"
                 name="password"
                 type="password"
@@ -178,7 +172,6 @@ function SignUp() {
                 RE-ENTER PASSWORD
               </InputLabel>
               <TextField
-                data-testid="confirmPassword-input"
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
@@ -192,7 +185,6 @@ function SignUp() {
             </FormControl>
 
             <Button
-              data-testid="submit-button"
               type="submit"
               variant="contained"
               sx={{
@@ -202,12 +194,6 @@ function SignUp() {
               Sign Up
             </Button>
           </form>
-        ) : (
-          <ReCAPTCHA
-            sitekey="6Lf76xYoAAAAALXpxMo3LHgMtYiRzFkYqGoC61uu"
-            onChange={handleRecaptcha}
-          />
-        )}
         </Card>
       </Box>
     </div>

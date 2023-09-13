@@ -11,7 +11,8 @@ function DashCards() {
                 backgroundColor:'#e9f2f8', 
                 width:'100%',
                 height:'100vh', 
-                flexDirection:'column'
+                flexDirection:'column',
+                marginBottom:'20px', 
             }}
         >
             <Box 
@@ -19,7 +20,8 @@ function DashCards() {
                     display:'flex',
                     gap: '20px',
                     justifyContent: 'center', // Centering the cards
-                    width:'100%'
+                    width:'100%', 
+                    marginBottom:'15px'
                 }}
             >
                 <Card 
@@ -37,7 +39,7 @@ function DashCards() {
                         93
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        New Tickets
+                        Total Submissions
                     </Typography>
                 </Card>
 
@@ -55,7 +57,7 @@ function DashCards() {
                         47
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        Closed Today
+                        Stories Published
                     </Typography>
                 </Card>
 
@@ -73,7 +75,7 @@ function DashCards() {
                         23.7k
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        Closed Today
+                        Total Stories
                     </Typography>
                 </Card>
 
@@ -91,7 +93,7 @@ function DashCards() {
                         47
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        Closed Today
+                        Stories Pending
                     </Typography>
                 </Card>
 
@@ -109,7 +111,7 @@ function DashCards() {
                         23.7k
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        Closed Today
+                        Popular Country
                     </Typography>
                 </Card>
             </Box>

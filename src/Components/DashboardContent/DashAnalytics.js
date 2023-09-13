@@ -7,7 +7,8 @@ function DashAnalytics() {
                 display:'flex',
                 height:'100vh', 
                 marginTop:'20px', 
-                justifyContent:'space-around'
+                justifyContent:'space-around',
+                padding: '0 20px'  // Add some horizontal padding to avoid cutting off
             }}>
             
             <Card 
@@ -15,18 +16,19 @@ function DashAnalytics() {
                     display:'flex',
                     width:'45%', 
                     height:'auto',
-                    flexDirection:'column',  
-                    border:'solid'
-                }}>
+                    flexDirection:'column',   
+                    border:'1px solid #dedede',                }}>
                 <Box 
                     sx={{
-                        padding:'15px',
-                        borderBottom:'1px grey solid'
+                        padding:'15px', 
+                        borderBottom:'1px grey solid',
+                        marginleft:'20px'
                     }}>
                     <Typography 
+                        variant='h5'
                         sx={{
                             display:'flex',
-                            alignContent:'start' 
+                            alignContent:'start', 
                         }}>
                         Development Activity
                     </Typography> 
@@ -37,33 +39,36 @@ function DashAnalytics() {
             </Card>
 
             <Card 
+                elevation={0}
                 sx={{
                     display: 'flex',
                     flexDirection: 'column', // making sure the content flows from top to bottom
                     width: '45%',
                     height: '100%',  // make sure card takes full height available
-                    backgroundColor: '#e9f2f8'
+                    backgroundColor: '#e9f2f8',
+                    boxSizing: 'border-box'  // Adjusts width/height to include padding and border
                 }}
             >
                 <Box 
                     sx={{ 
                         padding: '15px',
-                        borderBottom: '1px grey solid',
-                        backgroundColor: 'white',
+                        border: '1px grey solid',
+                        backgroundColor:'#99cdf5',
                         marginBottom:'20px',
                         flexShrink: 0,  // Ensure the header doesn't shrink
+                        boxSizing: 'border-box',  // Adjusts width/height to include padding and border 
+                        borderRadius:'5px'
                     }}
                 >
                     <Typography 
                         sx={{
                             display: 'flex',
-                            alignContent: 'start',
+                            alignContent: 'start',                           
                         }}
                     >
                         Read our documentation with code examples
                     </Typography> 
                 </Box> 
-
                 <Box 
                     sx={{
                         display: 'grid',
@@ -71,16 +76,48 @@ function DashAnalytics() {
                         gridTemplateRows: '1fr 1fr', // Two-row grid
                         gap: '20px',  // Spacing between the cards
                         flexGrow: 1,  // Allow this box to grow to take available space
+                        boxSizing: 'border-box'  // Adjusts width/height to include padding and border
                     }}
                 >
-                    {Array(4).fill(null).map((_, index) => (
-                        <Card key={index} sx={{ height: '100%', width: '100%' }}>
-                            <Typography sx={{ borderBottom: '1px solid gray' }}>WORDS</Typography> 
-                            <Box>
-                                <img src="https://placehold.it/150x150" alt="Placeholder" />
-                            </Box>
-                        </Card>
-                    ))}
+                    <Card sx={{ height: '100%', width: '100%', boxSizing: 'border-box', border:'1px solid #dedede', display:'flex', flexDirection:'column'}}>
+                        <Box sx={{padding:'20px',borderBottom: '1px solid gray'}}>
+                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR CARD 1</Typography>  
+                        </Box>
+                        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', }}>
+                            {/* Different content for Card 1 */}
+                            <img src="https://placehold.it/150x150" alt="Placeholder" />
+                        </Box>
+                    </Card>
+
+                    <Card sx={{ height: '100%', width: '100%', boxSizing: 'border-box',border:'1px solid #dedede', display:'flex', flexDirection:'column'}}>
+                        <Box sx={{padding:'20px',borderBottom: '1px solid gray'}}>
+                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR CARD 1</Typography>  
+                        </Box> 
+                        <Box>
+                            {/* Different content for Card 2 */}
+                            <img src="https://placehold.it/150x150" alt="Placeholder 2" />
+                        </Box>
+                    </Card>
+
+                    <Card sx={{ height: '100%', width: '100%', boxSizing: 'border-box', border:'1px solid #dedede',display:'flex', flexDirection:'column'}}>
+                        <Box sx={{padding:'20px',borderBottom: '1px solid gray'}}>
+                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR CARD 1</Typography>  
+                        </Box> 
+                        <Box>
+                            {/* Different content for Card 3 */}
+                            <img src="https://placehold.it/150x150" alt="Placeholder 3" />
+                        </Box>
+                    </Card>
+
+                    <Card sx={{ height: '100%', width: '100%', boxSizing: 'border-box', border:'1px solid #dedede',display:'flex', flexDirection:'column'}}>
+                        <Box sx={{padding:'20px',borderBottom: '1px solid gray'}}>
+                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR CARD 1</Typography>  
+                        </Box> 
+                        <Box>
+                            {/* Different content for Card 4 */}
+                            <img src="https://placehold.it/150x150" alt="Placeholder 4" />
+                        </Box>
+                    </Card>
                 </Box>
             </Card>
 

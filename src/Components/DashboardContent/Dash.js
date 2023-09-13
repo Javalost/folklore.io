@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Avatar, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
@@ -7,7 +7,9 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import FaceIcon from '@mui/icons-material/Face';
 import HomeIcon from '@mui/icons-material/Home';
 import WifiIcon from '@mui/icons-material/Wifi';
-import DashCards from './DashCards';
+import DashCards from './DashCards'; 
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 function Dash() {
     return (
@@ -17,7 +19,7 @@ function Dash() {
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        borderBottom: '1px gray solid',
+                        borderBottom: '1px solid #dedede',
                         padding: '15px'
                     }}
                 >
@@ -30,8 +32,8 @@ function Dash() {
                             marginLeft: '20px'
                         }}
                     >
-                        <Dashboard fontSize="large" />
-                        <Typography variant="h4">tabler</Typography>
+                        <Dashboard fontSize="large" color="primary"/>
+                        <Typography variant="h4">dashboard</Typography>
                     </Box>
 
                     <Box
@@ -39,21 +41,30 @@ function Dash() {
                             width: '50vh',
                             display: 'flex',
                             justifyContent: 'flex-end',
-                            gap: '0.5rem',
+                            gap: '2rem',
                             marginRight: '40px',
                             alignItems: 'center'
                         }}
                     >
-                        <Dashboard />
-                        <Dashboard />
-                        <Dashboard />
+                        <Button variant="outlined">Button</Button>
+                        <Icon>
+                            <NotificationsIcon />
+                        </Icon>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}>
+                            <Avatar alt="User Name" src="/path/to/user/image.jpg" /> 
+                                <Box>
+                                    <Typography variant="body1">User Name</Typography>
+                                    <Typography variant="caption">User Title</Typography> 
+                                </Box>
+                        </Box>
                     </Box>
+
                 </Box>
 
                 <Box
                     sx={{
                         display: 'flex',
-                        borderBottom: '1px solid gray',
+                        borderBottom: '1px solid #dedede',
                         justifyContent: 'flex-start',
                         gap: '20px'
                     }}

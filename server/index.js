@@ -6,7 +6,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const axios = require('axios');
+const axios = require('axios'); 
+const { expressjwt: expressJwt } = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
 console.log("Modules imported");
 
@@ -23,7 +25,19 @@ console.log("CORS options set");
 // Middleware setup
 app.use(bodyParser.json());
 app.use(cors(corsOptions));  
-app.use(express.json());
+app.use(express.json()); 
+
+const checkJwt = expressJwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+    }),
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+    algorithms: ['RS256']
+});
 
 console.log("Middleware setup complete");
 
@@ -40,32 +54,37 @@ console.log("Database pool created");
 
 
 
-app.post('/register', async (req, res) => {
-    console.log("/register endpoint hit");
-    const { username, email, password, recaptcha } = req.body;
-    console.log(`Request body destructured + ${recaptcha}`);
-
-    const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
-    const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptcha}`;
-    console.log({recaptchaSecretKey})
-    const recaptchaResponse = await axios.post(verificationURL);
-    if (!recaptchaResponse.data.success) {
-        return res.status(400).send('reCAPTCHA verification failed');
-    }
-
-    console.log("Password:", password);
-    const saltRounds = 10;
-    console.log("Salt Rounds:", saltRounds);
-
-    if (!password) {
-        console.error("Password is not provided or is empty");
-        return res.status(400).send('Bad request: password is missing');
-    }
+// Storing User Data
+app.post('/store-user-data', checkJwt, async (req, res) => {
+    const userId = req.user.sub;
+    const email = req.user.email; 
 
     try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        await pool.query('INSERT INTO userdata (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
-        res.send('User registered successfully');
+        const result = await pool.query('INSERT INTO users (auth0_id, email) VALUES ($1, $2) RETURNING id', [userId, email]);
+
+        if (result.rows.length > 0) {
+            res.send('User stored successfully');
+        } else {
+            res.status(500).send('Unable to store user');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+}); 
+
+// Fetching User Data
+app.get('/fetch-user-data', checkJwt, async (req, res) => {
+    const userId = req.user.sub;
+
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE auth0_id = $1', [userId]);
+
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]); 
+        } else {
+            res.status(404).send('User not found');
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
