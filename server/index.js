@@ -1,47 +1,37 @@
 require('dotenv').config({ path: '../.env' });
-console.log("Environment variables loaded");
 
-const bcrypt = require('bcrypt');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const axios = require('axios'); 
-const { expressjwt: expressJwt } = require('express-jwt');
-const jwksRsa = require('jwks-rsa');
-
-console.log("Modules imported");
+const { Clerk } = require('@clerk/clerk-sdk-node');
 
 const app = express();
-const port = 3001; 
+const port = 3001;
 
-const corsOptions = { 
+const corsOptions = {
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 };
 
-console.log("CORS options set");
-
-// Middleware setup
 app.use(bodyParser.json());
-app.use(cors(corsOptions));  
-app.use(express.json()); 
+app.use(cors(corsOptions));
+app.use(express.json());
 
-const checkJwt = expressJwt({
-    secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
-    }),
-    audience: process.env.AUTH0_AUDIENCE,
-    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-    algorithms: ['RS256']
-});
+const clerk = new Clerk(process.env.CLERK_SECRET_KEY);
 
-console.log("Middleware setup complete");
+const verifyClerkSession = async (req, res, next) => {
+    try {
+        const sessionToken = req.headers.authorization.split("Bearer ")[1];
+        const sessionId = await clerk.sessions.verifyToken(sessionToken);
+        const session = await clerk.sessions.getSession(sessionId);
+        req.user = session;
+        next();
+    } catch (error) {
+        res.status(401).send("Unauthorized");
+    }
+};
 
-// Database setup
 const pool = new Pool({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -50,14 +40,9 @@ const pool = new Pool({
     port: process.env.PG_PORT,
 });
 
-console.log("Database pool created"); 
-
-
-
-// Storing User Data
-app.post('/store-user-data', checkJwt, async (req, res) => {
-    const userId = req.user.sub;
-    const email = req.user.email; 
+app.post('/store-user-data', verifyClerkSession, async (req, res) => {
+    const userId = req.user.id;
+    const email = req.user.primaryEmailAddress.emailAddress;
 
     try {
         const result = await pool.query('INSERT INTO users (auth0_id, email) VALUES ($1, $2) RETURNING id', [userId, email]);
@@ -71,17 +56,16 @@ app.post('/store-user-data', checkJwt, async (req, res) => {
         console.error(err);
         res.status(500).send('Server error');
     }
-}); 
+});
 
-// Fetching User Data
-app.get('/fetch-user-data', checkJwt, async (req, res) => {
-    const userId = req.user.sub;
+app.get('/fetch-user-data', verifyClerkSession, async (req, res) => {
+    const userId = req.user.id;
 
     try {
         const result = await pool.query('SELECT * FROM users WHERE auth0_id = $1', [userId]);
 
         if (result.rows.length > 0) {
-            res.json(result.rows[0]); 
+            res.json(result.rows[0]);
         } else {
             res.status(404).send('User not found');
         }
@@ -92,7 +76,6 @@ app.get('/fetch-user-data', checkJwt, async (req, res) => {
 });
 
 app.get('/stories', async (req, res) => {
-    console.log("/stories endpoint hit");
     try {
         const country = req.query.country;
         let query;
@@ -114,7 +97,6 @@ app.get('/stories', async (req, res) => {
 });
 
 app.get('/countries', async (req, res) => {
-    console.log("/countries endpoint hit");
     try {
         const query = 'SELECT DISTINCT country FROM stories';
         const result = await pool.query(query);
@@ -127,18 +109,16 @@ app.get('/countries', async (req, res) => {
 });
 
 app.get('/testform', async (req, res) => {
-    console.log("/testform endpoint hit");
-    try { 
-        const result = await pool.query('SELECT * FROM testform'); 
+    try {
+        const result = await pool.query('SELECT * FROM testform');
         res.json(result.rows);
-    } catch (err) { 
+    } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
     }
 });
 
 app.post('/submit-data', async (req, res) => {
-    console.log("/submit-data endpoint hit");
     const { name, content, location } = req.body;
     try {
         await pool.query('INSERT INTO testform (name, content, location) VALUES ($1, $2, $3)', [name, content, location]);
@@ -150,7 +130,6 @@ app.post('/submit-data', async (req, res) => {
 });
 
 app.get('/genres', async (req, res) => {
-    console.log("/genres endpoint hit");
     try {
         const result = await pool.query('SELECT DISTINCT genre FROM stories');
         res.json(result.rows.map(row => row.genre));
@@ -161,7 +140,6 @@ app.get('/genres', async (req, res) => {
 });
 
 app.get('/regions', async (req, res) => {
-    console.log("/regions endpoint hit");
     try {
         const result = await pool.query('SELECT DISTINCT region FROM stories');
         res.json(result.rows.map(row => row.region));
@@ -172,7 +150,6 @@ app.get('/regions', async (req, res) => {
 });
 
 app.get('/filtered-stories', async (req, res) => {
-    console.log("/filtered-stories endpoint hit");
     try {
         const genres = req.query.genres ? req.query.genres.split(',') : [];
         const regions = req.query.regions ? req.query.regions.split(',') : [];
@@ -198,7 +175,6 @@ app.get('/filtered-stories', async (req, res) => {
     }
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

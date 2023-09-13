@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Avatar, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import AlarmIcon from '@mui/icons-material/Alarm';
@@ -9,9 +9,24 @@ import HomeIcon from '@mui/icons-material/Home';
 import WifiIcon from '@mui/icons-material/Wifi';
 import DashCards from './DashCards'; 
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useUser } from '@clerk/react';
 
 
-function Dash() {
+
+function Dash() { 
+    const [user, setUser] = useState(null);
+    console.log(user) 
+
+    useEffect(() => {
+        // Get the user data from Clerk.
+        const getUser = async () => {
+          const user = await useUser();
+          setUser(user);
+        };
+    
+        getUser();
+      }, []);   
+
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
             <Box>
@@ -51,9 +66,9 @@ function Dash() {
                             <NotificationsIcon />
                         </Icon>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}>
-                            <Avatar alt="User Name" src="/path/to/user/image.jpg" /> 
+                                <Avatar alt={user?.publicMetadata?.username || 'User'} src="/path/to/user/image.jpg" />
                                 <Box>
-                                    <Typography variant="body1">User Name</Typography>
+                                    <Typography variant="body1">{user?.publicMetadata?.username || 'Default Username'}</Typography>
                                     <Typography variant="caption">User Title</Typography> 
                                 </Box>
                         </Box>
