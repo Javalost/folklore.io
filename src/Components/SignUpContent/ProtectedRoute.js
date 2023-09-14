@@ -6,7 +6,6 @@ function ProtectedRoute({ children }) {
   if (!user) {
     return <RedirectToSignIn />;
   }
-
   return children;
 }
 

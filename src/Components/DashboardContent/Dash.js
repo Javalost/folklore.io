@@ -9,14 +9,16 @@ import HomeIcon from '@mui/icons-material/Home';
 import WifiIcon from '@mui/icons-material/Wifi';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import DashCards from './DashCards';
-import { UserButton, useUser } from '@clerk/clerk-react'; 
+import { UserButton, useUser } from '@clerk/clerk-react';  
+import SimpleFetchTest from './SimpleFetchTest';
 
 
 const Dash = () => { 
     const user = useUser();
-    const userID = user.id 
-    console.log(user)
-
+    const { id, username, ...rest } = user || {};
+    console.log("ID:", id);
+    console.log("Username:", username);
+    console.log("Rest of the properties:", rest);
 
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
@@ -60,7 +62,7 @@ const Dash = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
                             <UserButton/>
                             <Box>
-                                <Typography variant="caption">{userID}</Typography>
+                                <SimpleFetchTest></SimpleFetchTest>
                             </Box>
                         </Box>
                     </Box>

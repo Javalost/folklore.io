@@ -8,6 +8,7 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import SignUpPage from './Components/SignUpContent/SignUpPage';
 import ProtectedRoute from './Components/SignUpContent/ProtectedRoute';
 import PublicRoute from './Components/SignUpContent/PublicRoute';
+import SimpleFetchTest from './Components/DashboardContent/SimpleFetchTest';
 
 
 
@@ -25,7 +26,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/mapbox" element={<CombinedMapContent />} />
             <Route path="/signup" element={<PublicRoute><SignUpPage /></PublicRoute>} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dash /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><SimpleFetchTest /></ProtectedRoute>} />
           </Routes>
           
         </ClerkProvider>
