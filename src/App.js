@@ -15,21 +15,25 @@ if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
+
 function App() {
   return (
-    <ClerkProvider publishableKey={process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}>
-      <Router>
-        <div className="App">
+    <Router>
+      <div className="App">
+        <ClerkProvider publishableKey={process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/mapbox" element={<CombinedMapContent />} />
             <Route path="/signup" element={<PublicRoute><SignUpPage /></PublicRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dash /></ProtectedRoute>} />
           </Routes>
-        </div>
-      </Router>
-    </ClerkProvider>
+          
+        </ClerkProvider>
+      </div>
+    </Router>
   );
 }
+
+
 
 export default App;

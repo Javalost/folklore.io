@@ -57,6 +57,7 @@ function MainContent({ onSectionInView }) {
           borderBottom: '2px solid',
         }}
       >
+        Content For Tab One
         <ProductTab/>
       </Paper>
 
@@ -100,11 +101,10 @@ function MainContent({ onSectionInView }) {
       >
         <Typography variant="body1">
           <Link to="/datatest" color="white" underline="none">
-            Data Test
           </Link>
           <br />
           <Link to="/formtest" color="white" underline="none">
-            Form
+            
           </Link>
         </Typography>
       </Paper>

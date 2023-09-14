@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, Avatar, Typography, Icon } from "@mui/material";
+import {React, useEffect, useState} from 'react';
+import { Box, Button, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
@@ -9,8 +9,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import WifiIcon from '@mui/icons-material/Wifi';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import DashCards from './DashCards';
+import { UserButton, useUser } from '@clerk/clerk-react'; 
 
-const Dash = () => {
+
+const Dash = () => { 
+    const user = useUser();
+    const userID = user.id 
+    console.log(user)
+
+
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
             <Box>
@@ -50,11 +57,10 @@ const Dash = () => {
                             {/* Ensure you import NotificationsIcon at the top */}
                             <NotificationsIcon />
                         </Icon>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}>
-                            <Avatar alt="User" src="/path/to/user/image.jpg" />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                            <UserButton/>
                             <Box>
-                                <Typography variant="body1">Default Username</Typography>
-                                <Typography variant="caption">User Title</Typography> 
+                                <Typography variant="caption">{userID}</Typography>
                             </Box>
                         </Box>
                     </Box>

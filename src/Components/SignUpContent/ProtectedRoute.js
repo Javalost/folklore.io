@@ -1,13 +1,14 @@
-// ProtectedRoute.js
-import { SignedIn } from '@clerk/clerk-react';
+import { useUser, RedirectToSignIn } from '@clerk/clerk-react';
 
 function ProtectedRoute({ children }) {
-  return (
-    <SignedIn>
-      {children}
-    </SignedIn>
-  );
+  const { user } = useUser();
+
+  if (!user) {
+    return <RedirectToSignIn />;
+  }
+
+  return children;
 }
 
-export default ProtectedRoute;
 
+export default ProtectedRoute;

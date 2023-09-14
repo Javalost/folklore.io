@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from '@mui/material';
 import { useUser, SignIn } from '@clerk/clerk-react';
 
 function ProductTab() {

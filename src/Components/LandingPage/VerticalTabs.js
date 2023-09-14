@@ -49,11 +49,11 @@ function VerticalTabs({ value, onChange }) {
         }}
       >
         {user ? (
-          <UserButton onSignOut={handleSignOut} style={{ marginRight: '10px' }} />
+          <UserButton afterSignOutUrl="/" style={{ marginRight: '10px' }} />
         ) : (
           <DashboardIcon color="primary" style={{ fontSize: '5rem', marginRight: '10px' }} />
         )}
-        <Typography variant = "h4">MY APP</Typography>
+        <Typography variant = "h4" sx={{marginLeft:'10px'}}>MY APP</Typography>
       </Box>
       <Tabs
         variant="scrollable"
