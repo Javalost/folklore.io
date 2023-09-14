@@ -7,6 +7,9 @@ import Dash from './Components/DashboardContent/Dash.js';
 import { ClerkProvider } from '@clerk/clerk-react';
 import SignUpPage from './Components/SignUpContent/SignUpPage';
 import ProtectedRoute from './Components/SignUpContent/ProtectedRoute';
+import PublicRoute from './Components/SignUpContent/PublicRoute';
+
+
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key");
@@ -20,12 +23,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/mapbox" element={<CombinedMapContent />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dash />
-              </ProtectedRoute>
-            } />
+            <Route path="/signup" element={<PublicRoute><SignUpPage /></PublicRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dash /></ProtectedRoute>} />
           </Routes>
         </div>
       </Router>

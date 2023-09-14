@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box, Button, Avatar, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import AlarmIcon from '@mui/icons-material/Alarm';
@@ -7,26 +7,10 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import FaceIcon from '@mui/icons-material/Face';
 import HomeIcon from '@mui/icons-material/Home';
 import WifiIcon from '@mui/icons-material/Wifi';
-import DashCards from './DashCards'; 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { useUser } from '@clerk/react';
+import DashCards from './DashCards';
 
-
-
-function Dash() { 
-    const [user, setUser] = useState(null);
-    console.log(user) 
-
-    useEffect(() => {
-        // Get the user data from Clerk.
-        const getUser = async () => {
-          const user = await useUser();
-          setUser(user);
-        };
-    
-        getUser();
-      }, []);   
-
+const Dash = () => {
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
             <Box>
@@ -63,14 +47,15 @@ function Dash() {
                     >
                         <Button variant="outlined">Button</Button>
                         <Icon>
+                            {/* Ensure you import NotificationsIcon at the top */}
                             <NotificationsIcon />
                         </Icon>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}>
-                                <Avatar alt={user?.publicMetadata?.username || 'User'} src="/path/to/user/image.jpg" />
-                                <Box>
-                                    <Typography variant="body1">{user?.publicMetadata?.username || 'Default Username'}</Typography>
-                                    <Typography variant="caption">User Title</Typography> 
-                                </Box>
+                            <Avatar alt="User" src="/path/to/user/image.jpg" />
+                            <Box>
+                                <Typography variant="body1">Default Username</Typography>
+                                <Typography variant="caption">User Title</Typography> 
+                            </Box>
                         </Box>
                     </Box>
 
@@ -192,29 +177,28 @@ function Dash() {
                 </Box>
             </Box>
             <Box
+                sx={{
+                    padding: '15px', 
+                    backgroundColor:'#e9f2f8', 
+                }}
+            >
+                <Box
                     sx={{
-                        padding: '15px', 
-                        backgroundColor:'#e9f2f8', 
+                        width: '50vh',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '7px',
+                        marginLeft: '20px', 
                     }}
                 >
-                    <Box
-                        sx={{
-                            width: '50vh',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '7px',
-                            marginLeft: '20px', 
-                        }}
-                    >
-                        <Typography variant="h6">Dashboard</Typography>
-                    </Box> 
+                    <Typography variant="h6">Dashboard</Typography>
+                </Box> 
             </Box>
             <Box 
                 sx={{
                     height:'100vh', 
                 }}>
                 <DashCards>
-
                 </DashCards> 
             </Box>
         </Box>

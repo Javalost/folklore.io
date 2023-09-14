@@ -1,17 +1,13 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+// ProtectedRoute.js
+import { SignedIn } from '@clerk/clerk-react';
 
 function ProtectedRoute({ children }) {
-    const user = useUser();
-  
-    if (!user) {
-      window.location.href = "/signup";
-      return null;
-    }
-  
-    return children;
-  }
-  
+  return (
+    <SignedIn>
+      {children}
+    </SignedIn>
+  );
+}
 
 export default ProtectedRoute;
+

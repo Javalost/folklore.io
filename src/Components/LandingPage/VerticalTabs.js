@@ -1,8 +1,18 @@
 import React from 'react';
 import { Tab, Tabs, Box, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useUser, UserButton, useClerk } from '@clerk/clerk-react';
 
 function VerticalTabs({ value, onChange }) {
+  
+  const { user } = useUser(); // Get the current user using the useUser hook 
+  const { client } = useClerk();
+
+
+  const handleSignOut = async () => {
+    await client.signOut();
+    window.location.href = '/';
+  };
   
   const handleTabChange = (event, newValue) => {
     onChange(newValue);
@@ -26,9 +36,9 @@ function VerticalTabs({ value, onChange }) {
         sx={{ 
             width: '100%',
             display: 'flex',
-            alignItems: 'center', // Vertically center the content
-            justifyContent: 'space-between', // Align content to the start (left)
-            background: 'transparent', // ensure the gradient from parent is visible
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            background: 'transparent',
             padding: '.5rem'
         }}
     >
@@ -38,7 +48,11 @@ function VerticalTabs({ value, onChange }) {
             alignItems: 'center'
         }}
       >
-        <DashboardIcon color="primary" style={{ fontSize: '5rem', marginRight: '10px' }} />  
+        {user ? (
+          <UserButton onSignOut={handleSignOut} style={{ marginRight: '10px' }} />
+        ) : (
+          <DashboardIcon color="primary" style={{ fontSize: '5rem', marginRight: '10px' }} />
+        )}
         <Typography variant = "h4">MY APP</Typography>
       </Box>
       <Tabs
