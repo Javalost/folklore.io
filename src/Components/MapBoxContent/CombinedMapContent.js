@@ -7,8 +7,7 @@ import FullStory from './FullStory';
 import LeafletMap from './LeafletMap'; 
 import StoryFilter from './StoryFilter'; 
 import { UserButton, useUser } from '@clerk/clerk-react';
-import { SignOutButton } from '@clerk/clerk-react';
-import StyledSignOutButton from './ClerkStyles/StyledSignOutButton';
+import { Link } from 'react-router-dom';
 
 
 
@@ -130,14 +129,21 @@ function CombinedMapContent() {
                     justifyContent: 'space-between', 
                     marginRight: '15px'
                 }}>
-                    <Typography
-                        padding='15px'
-                        variant='h5'
-                        color='white'
-                        sx={{fontWeight:'bolder'}}
-                    > 
-                        FOLKLORE 
-                    </Typography>
+                    <Box sx={{margin:'0'}}>
+                        <Typography
+                            padding='15px'
+                            variant='h5'
+                            color='white'
+                            sx={{fontWeight:'bolder'}}
+                        > 
+                            FOLKLORE 
+                        </Typography>  
+                        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+                            <Button sx={{ marginLeft:'10px' }}>
+                                Dashboard
+                            </Button>
+                        </Link>
+                    </Box>
                     {user ? (
                         <Box sx={{padding:'15px'}}>
                             <UserButton/>

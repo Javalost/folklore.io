@@ -11,6 +11,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import DashCards from './DashCards';
 import { UserButton, useUser } from '@clerk/clerk-react';  
 import SimpleFetchTest from './SimpleFetchTest';
+import MapIcon from '@mui/icons-material/Map';
+import { Link } from 'react-router-dom';
 
 
 const Dash = () => { 
@@ -177,8 +179,15 @@ const Dash = () => {
                             }}
                         >
                             <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                                <WifiIcon fontSize="small" />
-                                <Typography variant="caption">Wifi</Typography>
+                            <Button 
+                                startIcon={<MapIcon />} 
+                                variant="contained" 
+                                color="primary" 
+                                component={Link} 
+                                to="/mapbox"
+                            >
+                                View Map
+                            </Button>
                             </Box>
                         </Button>
                     </Box>
