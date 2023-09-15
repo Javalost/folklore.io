@@ -1,8 +1,8 @@
 import {React, useEffect, useState} from 'react';
 import { Box, Button, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import BookIcon from '@mui/icons-material/Book';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import CloudIcon from '@mui/icons-material/Cloud';
 import FaceIcon from '@mui/icons-material/Face';
 import HomeIcon from '@mui/icons-material/Home';
@@ -12,7 +12,7 @@ import SimpleFetchTest from './SimpleFetchTest';
 import MapIcon from '@mui/icons-material/Map';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import CombinedDashContent from './CombinedDashContent'; 
-import AlarmContent from './AlarmContent';  
+import AlarmContent from './AlarmContent';   
 
 
 
@@ -41,7 +41,7 @@ const Dash = () => {
                         }}
                     >
                         <Dashboard fontSize="large" color="primary"/>
-                        <Typography variant="h4">dashboard</Typography>
+                        <Typography variant="h4">Dashboard</Typography>
                     </Box>
 
                     <Box
@@ -74,26 +74,26 @@ const Dash = () => {
                         display: 'flex',
                         borderBottom: '1px solid #dedede',
                         justifyContent: 'flex-start',
-                        gap: '20px'
+                        gap: '20px',
+                        marginLeft:'1.6rem'
                     }}
                 >
                     {/* Link buttons */}
-                    <Button component={Link} to="/dashboard/alarm" variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <AlarmIcon fontSize="small" />
-                            <Typography variant="caption">Alarm</Typography>
-                        </Box>
-                    </Button>
-
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Link to="/dashboard" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem', textDecoration: 'none', color: 'inherit' }}>
+                            <DashboardIcon fontSize="small" />
+                            <Typography variant="caption">Dashboard</Typography>
+                        </Link>
+                    </Button>
+
+                    <Button component={Link} to="/dashboard/alarm" variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <Link to="/dashboard">
-                                <BeachAccessIcon fontSize="small" />
-                            </Link>
-                            <Typography variant="caption">Beach</Typography>
+                            <BookIcon fontSize="small" />
+                            <Typography variant="caption">Write a story</Typography>
                         </Box>
                     </Button>
+
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
@@ -111,10 +111,13 @@ const Dash = () => {
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <HomeIcon fontSize="small" />
+                            <Link to="/">
+                                <HomeIcon fontSize="small" />
+                            </Link>
                             <Typography variant="caption">Home</Typography>
                         </Box>
                     </Button>
+
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
