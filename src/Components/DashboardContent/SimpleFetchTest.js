@@ -6,10 +6,9 @@ const SimpleFetchTest = () => {
     const { user } = useUser();
 
     const username = user.username;
-
     return (
         <div>
-            {username ? <Typography variant="h6">{username}</Typography> : 'Username not found'}
+            {username ? <Typography variant="h6">{username}</Typography> : 'Username not found'} 
         </div>
     );
 };
