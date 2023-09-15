@@ -30,7 +30,7 @@ const verifyClerkSession = async (req, res, next) => {
     } catch (error) {
         res.status(401).send("Unauthorized");
     }
-};
+}; 
 
 const pool = new Pool({
     user: process.env.PG_USER,
@@ -39,6 +39,28 @@ const pool = new Pool({
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT,
 });
+
+app.get('/get-username', async (req, res) => {
+    const sessionId = req.headers['clerk-session-id'];
+    
+    if (!sessionId) {
+        return res.status(400).send("Clerk session ID required.");
+    }
+
+    try {
+        const user = await clerk.users.getUserBySessionId(sessionId);
+        if (user && user.username) {
+            res.json({ username: user.username });
+        } else {
+            res.status(404).send("Username not found.");
+        }
+    } catch (error) {
+        console.error("Failed to fetch user:", error);
+        res.status(500).send("Internal Server Error.");
+    }
+});
+
+
 
 app.post('/store-user-data', verifyClerkSession, async (req, res) => {
     const userId = req.user.id;
