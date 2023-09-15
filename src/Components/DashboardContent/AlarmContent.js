@@ -12,30 +12,48 @@ const AlarmContent = () => {
                 gap:'10px',
                 padding: '0 20px',
             }}>
-            <Box
+            <Box sx={{
+                padding:'5px',
+                border:'1px solid #dedede',
+                borderRadius:'10px',
+                display:'flex', 
+                justifyContent:'flex-start',
+                width:'30%'
+
+            }}>
+                <TextField
+                    variant="standard"
+                    placeholder="Title"
+                    InputProps={{
+                        style: {
+                            fontSize: '3rem',
+                            height: '4rem',
+                            padding: '10px',
+                            border: 'none',
+                            fontFamily: 'medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif', 
+                        },
+                        disableUnderline: true,
+                    }}
+                />
+                 <Box
                 sx={{
                     display: 'flex',
-                    width:'62%', 
-                    justifyContent:'flex-end'
+                    width:'100%', 
+                    height: '100%',
+                    justifyContent:'flex-end',
+
                 }}
-            >
-                <Button variant="contained" color="primary">Publish</Button>
+                >
+                    <Button 
+                        variant="contained"    
+                        color="primary" 
+                        sx={{
+                            height:'2rem'
+                    }}>
+                        Publish
+                    </Button>
+                </Box> 
             </Box>
-            <TextField
-                variant="standard"
-                placeholder="Title"
-                fullWidth
-                InputProps={{
-                    style: {
-                        fontSize: '3rem',
-                        height: '4rem',
-                        padding: '10px',
-                        border: 'none',
-                        fontFamily: 'medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif', 
-                    },
-                    disableUnderline: true,
-                }}
-            />
 
             <TextareaAutosize
                 minRows={10}
