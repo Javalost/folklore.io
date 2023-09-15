@@ -1,5 +1,4 @@
-import { Card, Box, Typography, Button } from "@mui/material";
-import DashAnalytics from "./DashAnalytics";
+import { Card, Box, Typography} from "@mui/material";
 
 function DashCards() { 
     return ( 
@@ -9,9 +8,7 @@ function DashCards() {
                 padding: '15px', 
                 backgroundColor:'#e9f2f8', 
                 width:'100%',
-                height:'100vh', 
                 flexDirection:'column',
-                marginBottom:'20px', 
             }}
         >
             <Box 
@@ -112,9 +109,8 @@ function DashCards() {
                     <Typography sx={{fontSize:'.875rem'}}>
                         Popular Country
                     </Typography>
-                </Card>
-            </Box>
-            <DashAnalytics />
+                </Card> 
+            </Box>       
         </Box>
     );
 }

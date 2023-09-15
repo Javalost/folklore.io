@@ -25,7 +25,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/mapbox" element={<CombinedMapContent />} />
             <Route path="/signup" element={<PublicRoute><SignUpPage /></PublicRoute>} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dash /></ProtectedRoute>} />
+            <Route path="/dashboard/*" element={<ProtectedRoute><Dash /></ProtectedRoute>} />
           </Routes>
           
         </ClerkProvider>

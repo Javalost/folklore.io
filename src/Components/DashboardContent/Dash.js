@@ -6,21 +6,19 @@ import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import CloudIcon from '@mui/icons-material/Cloud';
 import FaceIcon from '@mui/icons-material/Face';
 import HomeIcon from '@mui/icons-material/Home';
-import WifiIcon from '@mui/icons-material/Wifi';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import DashCards from './DashCards';
 import { UserButton, useUser } from '@clerk/clerk-react';  
 import SimpleFetchTest from './SimpleFetchTest';
 import MapIcon from '@mui/icons-material/Map';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import CombinedDashContent from './CombinedDashContent'; 
+import AlarmContent from './AlarmContent';  
+
 
 
 const Dash = () => { 
     const user = useUser();
-    const { id, username, ...rest } = user || {};
-    console.log("ID:", id);
-    console.log("Username:", username);
-    console.log("Rest of the properties:", rest);
+    const { id, username} = user || {};
 
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
@@ -51,7 +49,7 @@ const Dash = () => {
                             width: '50vh',
                             display: 'flex',
                             justifyContent: 'flex-end',
-                            gap: '2rem',
+                            gap: '1.3rem',
                             marginRight: '40px',
                             alignItems: 'center'
                         }}
@@ -79,120 +77,55 @@ const Dash = () => {
                         gap: '20px'
                     }}
                 >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            gap: '20px',
-                            marginLeft: '35px',
-                            paddingTop: '20px',
-                            paddingBottom: '10px'
-                        }}
-                    >
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                                <AlarmIcon fontSize="small" />
-                                <Typography variant="caption">Alarm</Typography>
-                            </Box>
-                        </Button>
+                    {/* Link buttons */}
+                    <Button component={Link} to="/dashboard/alarm" variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <AlarmIcon fontSize="small" />
+                            <Typography variant="caption">Alarm</Typography>
+                        </Box>
+                    </Button>
 
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+
+                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <Link to="/dashboard">
                                 <BeachAccessIcon fontSize="small" />
-                                <Typography variant="caption">Beach</Typography>
-                            </Box>
-                        </Button>
+                            </Link>
+                            <Typography variant="caption">Beach</Typography>
+                        </Box>
+                    </Button>
 
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                                <CloudIcon fontSize="small" />
-                                <Typography variant="caption">Cloud</Typography>
-                            </Box>
-                        </Button>
+                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <CloudIcon fontSize="small" />
+                            <Typography variant="caption">Cloud</Typography>
+                        </Box>
+                    </Button>
 
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                                <FaceIcon fontSize="small" />
-                                <Typography variant="caption">Face</Typography>
-                            </Box>
-                        </Button>
+                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <FaceIcon fontSize="small" />
+                            <Typography variant="caption">Face</Typography>
+                        </Box>
+                    </Button>
 
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                                <HomeIcon fontSize="small" />
-                                <Typography variant="caption">Home</Typography>
-                            </Box>
-                        </Button>
+                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <HomeIcon fontSize="small" />
+                            <Typography variant="caption">Home</Typography>
+                        </Box>
+                    </Button>
 
-                        <Button
-                            variant="text"
-                            sx={{
-                                color: 'gray',
-                                '&:hover': {
-                                    color: 'blue',
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                        >
-                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <Button 
-                                startIcon={<MapIcon />} 
-                                variant="contained" 
-                                color="primary" 
-                                component={Link} 
-                                to="/mapbox"
-                            >
+                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                            <Button startIcon={<MapIcon />} variant="contained" color="primary" component={Link} to="/mapbox">
                                 View Map
                             </Button>
-                            </Box>
-                        </Button>
-                    </Box>
+                        </Box>
+                    </Button>
                 </Box>
             </Box>
+            
             <Box
                 sx={{
                     padding: '15px', 
@@ -208,18 +141,19 @@ const Dash = () => {
                         marginLeft: '20px', 
                     }}
                 >
-                    <Typography variant="h6">Dashboard</Typography>
                 </Box> 
             </Box>
-            <Box 
-                sx={{
-                    height:'100vh', 
-                }}>
-                <DashCards>
-                </DashCards> 
-            </Box>
+
+            <Box sx={{ height:'100vh' }}>
+                <Routes>
+                    <Route path="alarm" element={<AlarmContent />} />
+                    <Route path="/" element={<CombinedDashContent />} />
+
+                </Routes>
+            </Box> 
         </Box>
     );
 }
 
 export default Dash;
+

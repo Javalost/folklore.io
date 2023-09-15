@@ -6,7 +6,7 @@ function DashAnalytics() {
             sx={{
                 display:'flex',
                 height:'100vh', 
-                marginTop:'20px', 
+                backgroundColor: '#e9f2f8',
                 justifyContent:'space-around',
                 padding: '0 20px'  // Add some horizontal padding to avoid cutting off
             }}>
@@ -40,12 +40,13 @@ function DashAnalytics() {
 
             <Card 
                 elevation={0}
-                sx={{
+                sx={{ 
+                    backgroundColor: '#e9f2f8',
+
                     display: 'flex',
                     flexDirection: 'column', // making sure the content flows from top to bottom
                     width: '45%',
                     height: '100%',  // make sure card takes full height available
-                    backgroundColor: '#e9f2f8',
                     boxSizing: 'border-box'  // Adjusts width/height to include padding and border
                 }}
             >
