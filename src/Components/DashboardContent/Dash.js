@@ -74,8 +74,9 @@ const Dash = () => {
                         display: 'flex',
                         borderBottom: '1px solid #dedede',
                         justifyContent: 'flex-start',
-                        gap: '20px',
-                        marginLeft:'1.6rem'
+                        gap: '10px',
+                        marginLeft:'1.6rem', 
+                        alignItems:'center'
                     }}
                 >
                     {/* Link buttons */}
@@ -109,14 +110,15 @@ const Dash = () => {
                         </Box>
                     </Button>
 
-                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <Link to="/">
+                    <Link to="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
+                        <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                                 <HomeIcon fontSize="small" />
-                            </Link>
-                            <Typography variant="caption">Home</Typography>
-                        </Box>
-                    </Button>
+                                <Typography variant="caption">Home</Typography>
+                            </Box>
+                        </Button>
+                    </Link>
+
 
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
