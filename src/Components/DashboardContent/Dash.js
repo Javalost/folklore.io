@@ -109,14 +109,15 @@ const Dash = () => {
                         </Box>
                     </Button>
 
-                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <Link to="/">
+                    <Link to="/" style={{ textDecoration: 'none', display: 'flex', margin: 0, padding: 0, alignContent:'center', justifyContent:'center'}}>
+                        <Button variant="text" sx={{color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent', } }}>
+                            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                                 <HomeIcon fontSize="small" />
-                            </Link>
-                            <Typography variant="caption">Home</Typography>
-                        </Box>
-                    </Button>
+                                <Typography variant="caption">Home</Typography>
+                            </Box>
+                        </Button>
+                    </Link>
+
 
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
