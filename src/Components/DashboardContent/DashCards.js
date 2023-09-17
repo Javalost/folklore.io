@@ -11,18 +11,31 @@ function DashCards(currentUser) {
     });
 
     useEffect(() => {
-        if (currentUser) {
-            fetch(`/api/dashboard-data?userId=${currentUser.id}`, {
+        // Fetch the dashboard data for the user 
+    
+        if (session) { 
+            const sessionId = session.id;
+            console.log("Session ID: " + sessionId);
+    
+            fetch('/api/dashboard-data', {
                 headers: {
-                    'Authorization': `Bearer ${currentUser.sessionToken}`
+                    'clerk-session-id': sessionId // Use the actual sessionId from Clerk
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                setUserData(data);
+                // Use the data to populate your dashboard
+            })
+            .catch(error => {
+                console.error("Error fetching dashboard data:", error);
             });
         }
-    }, [currentUser]);   
+    }, [session]); // Add session as a dependency to the useEffect
         
     return ( 
         <Box

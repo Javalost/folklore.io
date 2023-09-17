@@ -1,6 +1,39 @@
 import { Card, Box, Typography } from "@mui/material";
+import { useClerk } from "@clerk/clerk-react"; 
+import { useState, useEffect } from "react";
 
-function DashAnalytics() { 
+function DashAnalytics() {  
+    const { user, session} = useClerk(); 
+    const [userStats, setUserStats] = useState(null);
+
+    useEffect(() => {
+        // Fetch the dashboard data for the user 
+    
+        if (session) { 
+            const sessionId = session.id;
+            console.log("Session ID: " + sessionId);
+    
+            fetch('/api/dashboard-data', {
+                headers: {
+                    'clerk-session-id': sessionId // Use the actual sessionId from Clerk
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Use the data to populate your dashboard
+            })
+            .catch(error => {
+                console.error("Error fetching dashboard data:", error);
+            });
+        }
+    }, [session]); // Add session as a dependency to the useEffect
+    
+
     return(
         <Box 
             sx={{
@@ -33,8 +66,11 @@ function DashAnalytics() {
                         Development Activity
                     </Typography> 
                 </Box>
-                <Box>
-                    {/* Putting a Country, Name, and Date Submitted Tags here */}
+                <Box sx={{padding:'25px'}}>
+                    {/* Putting a Country, Name, and Date Submitted Tags here */} 
+                    <Typography sx={{border:'solid', width:'15rem', height:'15rem'}}>
+                        Dummy text here
+                    </Typography>
                 </Box>
             </Card>
 

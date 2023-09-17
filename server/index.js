@@ -60,25 +60,22 @@ app.get('/get-username', async (req, res) => {
     }
 });
 
-app.get('/api/dashboard-data', verifyClerkSession, async (req, res) => {
-    const userId = req.user.id;
-
+app.post('/api/init-user-dashboard', verifyClerkSession, async (req, res) => {
+    const userId = req.user.id; // Extracted from the Clerk session
+    
     try {
-        // Assuming you have a table or relevant data in your PostgreSQL 
-        // database to provide the dashboard data. Modify the query accordingly.
+        await pool.query(`
+            INSERT INTO user_dashboard(user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING
+        `, [userId]);
 
-        const result = await pool.query('SELECT * FROM dashboard_data WHERE user_id = $1', [userId]);
-
-        if (result.rows.length > 0) {
-            res.json(result.rows[0]);
-        } else {
-            res.status(404).send('Dashboard data not found');
-        }
+        res.send('User dashboard initialized successfully');
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
     }
 });
+
+
 
 
 app.post('/store-user-data', verifyClerkSession, async (req, res) => {

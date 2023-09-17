@@ -1,7 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import { Card, Typography, Button, Paper, Link, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { SignIn } from '@clerk/clerk-react';
+import { Link as RouterLink } from 'react-router-dom'; 
+import { Map, Dashboard, Info } from '@mui/icons-material'; 
+import { SignIn, useClerk } from '@clerk/clerk-react'; 
+import { UserButton } from '@clerk/clerk-react';  
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+
 
 import ProductTab from './TabOneContent/ProductTab';  
 
@@ -9,7 +17,10 @@ import ProductTab from './TabOneContent/ProductTab';
 function MainContent({ onSectionInView }) {
   const containerRef = useRef();
   const sections = ["tab-one", "tab-two", "tab-three"]; 
-  const mapImage = "/mapimage.PNG"; // This references the image in the public folder
+  const mapImage = "/mapimage.PNG"; // This references the image in the public folder 
+  const {user} = useClerk();  
+  const navigate = useNavigate();
+
 
 
   const debounce = (func, wait) => {
@@ -82,9 +93,84 @@ function MainContent({ onSectionInView }) {
         }}
       >
         <Card 
-        sx={{ width: '25rem', height: '28rem', border: 'solid', background: 'white', padding: '2rem', fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', }}>
-    
+          sx={{ 
+            display: 'flex',
+            flexDirection: 'column', 
+            width: '25rem', 
+            height: '28rem', 
+            border: '2px solid #003040', 
+            borderRadius: '15px', 
+            justifyContent: 'space-between',
+            background: '#F5F7FA', 
+            padding: '2rem', 
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',  // subtle shadow for depth
+          }}>
+          <Box sx={{
+            display:'flex', 
+            justifyContent:'space-between', 
+            alignItems:'center', 
+            marginBottom: '1rem',  // Added space between the title and the buttons
+            paddingLeft:'10px', 
+            paddingRight:'10px'
+          }}> 
+            <Typography 
+              variant="h4" 
+              fontFamily={ 'medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif'} 
+              color="#003040" 
+              sx={{
+                fontWeight:'bold'
+              }}
+            >
+              TRY MY SITE!
+            </Typography>
+            {user ? (
+              <UserButton afterSignOutUrl="/" style={{ marginRight: '10px' }} />
+            ) : (
+              null
+            )}
+          </Box>
+  
+          <Button 
+        fullWidth
+        onClick={() => navigate("/mapbox")}
+        sx={{
+          background: 'linear-gradient(156deg,#0080A0,#004060)',
+          border: '1px solid #003040',
+          color: 'white',
+          margin: '0.5rem 0',
+        }}
+      >
+        <Map sx={{ mr: 1 }} /> Mapbox
+      </Button>
+
+      <Button 
+        fullWidth
+        onClick={() => navigate("/dashboard")}
+        sx={{
+          background: 'linear-gradient(156deg,#0080A0,#004060)',
+          border: '1px solid #003040',
+          color: 'white',
+          margin: '0.5rem 0',
+        }}
+      >
+        <Dashboard sx={{ mr: 1 }} /> Dashboard
+      </Button>
+
+      <Button 
+        fullWidth
+        onClick={() => navigate("/about")}
+        sx={{
+          background: 'linear-gradient(156deg,#0080A0,#004060)',
+          border: '1px solid #003040',
+          color: 'white',
+          margin: '0.5rem 0',
+        }}
+      >
+        <Info sx={{ mr: 1 }} /> About
+      </Button>
         </Card>
+
       </Paper>
 
       <Paper

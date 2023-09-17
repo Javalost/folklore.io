@@ -48,12 +48,7 @@ function VerticalTabs({ value, onChange }) {
             alignItems: 'center'
         }}
       >
-        {user ? (
-          <UserButton afterSignOutUrl="/" style={{ marginRight: '10px' }} />
-        ) : (
-          <DashboardIcon color="primary" style={{ fontSize: '5rem', marginRight: '10px' }} />
-        )}
-        <Typography variant = "h4" sx={{marginLeft:'10px'}}>MY APP</Typography>
+        <Typography variant = "h4" fontWeight='bold' sx={{marginLeft:'10px'}}>FOLKORE</Typography>
       </Box>
       <Tabs
         variant="scrollable"
