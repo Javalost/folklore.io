@@ -17,8 +17,6 @@ import AlarmContent from './AlarmContent';
 
 
 const Dash = () => { 
-    const user = useUser();
-    const { id, username} = user || {};
 
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
@@ -59,9 +57,9 @@ const Dash = () => {
                             {/* Ensure you import NotificationsIcon at the top */}
                             <NotificationsIcon />
                         </Icon>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
                             <UserButton/>
-                            <Box>
+                            <Box sx ={{}}>
                                 <SimpleFetchTest></SimpleFetchTest>
                             </Box>
                         </Box>
@@ -95,6 +93,7 @@ const Dash = () => {
                         </Box>
                     </Button>
 
+<<<<<<< HEAD
 
                     <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
@@ -112,6 +111,10 @@ const Dash = () => {
 
                     <Link to="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
                         <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+=======
+                    <Link to="/" style={{ textDecoration: 'none', display: 'flex', margin: 0, padding: 0, alignContent:'center', justifyContent:'center'}}>
+                        <Button variant="text" sx={{color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent', } }}>
+>>>>>>> 68dafb1264b7e1f9bb8d187fbf4d436afb7bb72d
                             <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                                 <HomeIcon fontSize="small" />
                                 <Typography variant="caption">Home</Typography>
@@ -152,7 +155,7 @@ const Dash = () => {
             <Box sx={{ height:'100vh' }}>
                 <Routes>
                     <Route path="alarm" element={<AlarmContent />} />
-                    <Route path="/" element={<CombinedDashContent />} />
+                    <Route path="/" element={<CombinedDashContent currentUser={user}/>} />
 
                 </Routes>
             </Box> 
@@ -162,3 +165,6 @@ const Dash = () => {
 
 export default Dash;
 
+
+
+//<Dash <SimpleFetchTest><AlarmContent><CombinedDashContent <DashAnalytics><DashCards>>>

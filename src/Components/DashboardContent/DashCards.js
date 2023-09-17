@@ -1,6 +1,29 @@
-import { Card, Box, Typography} from "@mui/material";
+import { Card, Box, Typography} from "@mui/material"; 
+import { useEffect, useState } from "react";
 
-function DashCards() { 
+function DashCards(currentUser) { 
+    const [userData, setUserData] = useState({
+        totalSubmissions: 0,
+        storiesPublished: 0,
+        totalStories: 0,
+        storiesPending: 0,
+        popularCountry: ""
+    });
+
+    useEffect(() => {
+        if (currentUser) {
+            fetch(`/api/dashboard-data?userId=${currentUser.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${currentUser.sessionToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                setUserData(data);
+            });
+        }
+    }, [currentUser]);   
+        
     return ( 
         <Box
             sx={{
@@ -36,6 +59,7 @@ function DashCards() {
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
                         Total Submissions
+                        
                     </Typography>
                 </Card>
 
@@ -53,7 +77,8 @@ function DashCards() {
                         47
                     </Typography> 
                     <Typography sx={{fontSize:'.875rem'}}>
-                        Stories Published
+                        Stories Published  
+                        User ID: {currentUser.id}
                     </Typography>
                 </Card>
 
