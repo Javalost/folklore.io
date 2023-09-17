@@ -1,11 +1,16 @@
 import React, { useRef, useEffect } from 'react';
-import { Box, Typography, Paper } from '@mui/material'; 
-import { Link } from 'react-router-dom';
-import ProductTab from './TabOneContent/ProductTab';
+import { Card, Typography, Button, Paper, Link, Box } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { SignIn } from '@clerk/clerk-react';
+
+import ProductTab from './TabOneContent/ProductTab';  
+
 
 function MainContent({ onSectionInView }) {
   const containerRef = useRef();
-  const sections = ["tab-one", "tab-two", "tab-three"];
+  const sections = ["tab-one", "tab-two", "tab-three"]; 
+  const mapImage = "/mapimage.PNG"; // This references the image in the public folder
+
 
   const debounce = (func, wait) => {
     let timeout;
@@ -66,13 +71,20 @@ function MainContent({ onSectionInView }) {
         elevation={0}
         sx={{
           margin: '0px 0',
-          padding: '300px 100px',
-          background: '#white',
+          padding:'3rem',
           textAlign: 'center',
           borderBottom: '2px solid',
+          backgroundImage: `url(${mapImage})`, // Set the background image
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover', // Adjust this based on your requirements 
+          
+
         }}
       >
-        <Typography variant="h6">Content for Tab Two</Typography>
+        <Card 
+        sx={{ width: '25rem', height: '28rem', border: 'solid', background: 'white', padding: '2rem', fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', }}>
+    
+        </Card>
       </Paper>
 
       <Paper

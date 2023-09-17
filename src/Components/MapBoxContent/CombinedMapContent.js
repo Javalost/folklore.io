@@ -134,7 +134,7 @@ function CombinedMapContent() {
                             padding='15px'
                             variant='h5'
                             color='white'
-                            sx={{fontWeight:'bolder'}}
+                            sx={{fontWeight:'bolder', border:'solid', borderRadius:'10px'}}
                         > 
                             FOLKLORE 
                         </Typography>  
