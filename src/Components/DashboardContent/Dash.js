@@ -3,8 +3,6 @@ import { Box, Button, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import BookIcon from '@mui/icons-material/Book';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import CloudIcon from '@mui/icons-material/Cloud';
-import FaceIcon from '@mui/icons-material/Face';
 import HomeIcon from '@mui/icons-material/Home';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { UserButton, useUser } from '@clerk/clerk-react';  
@@ -17,7 +15,8 @@ import AlarmContent from './AlarmContent';
 
 
 const Dash = () => { 
-
+    const { user } = useUser();
+    console.log("ID" + user.id)
     return (
         <Box sx={{ margin: '0', padding: '0' }}>
             <Box>
@@ -93,28 +92,8 @@ const Dash = () => {
                         </Box>
                     </Button>
 
-<<<<<<< HEAD
-
-                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <CloudIcon fontSize="small" />
-                            <Typography variant="caption">Cloud</Typography>
-                        </Box>
-                    </Button>
-
-                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <FaceIcon fontSize="small" />
-                            <Typography variant="caption">Face</Typography>
-                        </Box>
-                    </Button>
-
-                    <Link to="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-=======
                     <Link to="/" style={{ textDecoration: 'none', display: 'flex', margin: 0, padding: 0, alignContent:'center', justifyContent:'center'}}>
                         <Button variant="text" sx={{color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent', } }}>
->>>>>>> 68dafb1264b7e1f9bb8d187fbf4d436afb7bb72d
                             <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                                 <HomeIcon fontSize="small" />
                                 <Typography variant="caption">Home</Typography>
