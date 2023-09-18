@@ -6,7 +6,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const axios = require('axios');
+const axios = require('axios'); 
+
+
 
 console.log("Modules imported");
 
@@ -23,8 +25,8 @@ console.log("CORS options set");
 // Middleware setup
 app.use(bodyParser.json());
 app.use(cors(corsOptions));  
-app.use(express.json());
-
+app.use(express.json()); 
+  
 console.log("Middleware setup complete");
 
 // Database setup
@@ -116,18 +118,43 @@ app.post('/api/add-story', async (req, res) => {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server error' });
     }
-});
+}); 
 
-app.get('/testform', async (req, res) => {
-    console.log("/testform endpoint hit");
-    try { 
-        const result = await pool.query('SELECT * FROM testform'); 
-        res.json(result.rows);
-    } catch (err) { 
-        console.error(err);
-        res.status(500).send('Server error');
+app.get('/api/total-stories', async (req, res) => {
+    console.log('/api/total-stories endpoint hit');
+  
+    try {
+      const result = await pool.query('SELECT COUNT(*) AS story_count FROM stories;');
+      const storyCount = result.rows[0].story_count;
+      
+      res.json({ success: true, totalStories: storyCount });
+    } catch (error) {
+      console.error('Error while fetching total stories:', error);
+      res.status(500).json({ success: false, error: 'Unable to fetch total stories' });
+    }
+
+}); 
+
+
+app.get('/api/user-stories', async (req, res) => {
+    const userId = req.header('userId');
+
+    if (!userId) {
+        return res.status(400).json({ success: false, error: 'No user ID provided.' });
+    }
+
+    try {
+        const result = await pool.query('SELECT COUNT(*) AS story_count FROM draft_stories WHERE user_id = $1;', [userId]);
+        const storyCount = result.rows[0].story_count;
+      
+        res.json({ success: true, totalStories: storyCount });
+    } catch (error) {
+        console.error('Error while fetching user stories:', error);
+        res.status(500).json({ success: false, error: 'Unable to fetch user stories' });
     }
 });
+
+
 
 app.post('/submit-data', async (req, res) => {
     console.log("/submit-data endpoint hit");

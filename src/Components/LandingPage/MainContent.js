@@ -144,6 +144,7 @@ function MainContent({ onSectionInView }) {
         <Map sx={{ mr: 1 }} /> Mapbox
       </Button>
 
+      {user ? (
       <Button 
         fullWidth
         onClick={() => navigate("/dashboard")}
@@ -153,10 +154,12 @@ function MainContent({ onSectionInView }) {
           color: 'white',
           margin: '0.5rem 0',
         }}
-      >
+      > 
         <Dashboard sx={{ mr: 1 }} /> Dashboard
-      </Button>
-
+      </Button> 
+      ) : (
+        null
+      )}
       <Button 
         fullWidth
         onClick={() => navigate("/about")}

@@ -1,6 +1,6 @@
 import { Card, Box, Typography } from "@mui/material";
-import { useClerk } from "@clerk/clerk-react"; 
-import { useState, useEffect } from "react";
+import StoryChart from "./StoryChart";
+
 
 function DashAnalytics() {  
 
@@ -20,7 +20,7 @@ function DashAnalytics() {
                     width:'45%', 
                     height:'auto',
                     flexDirection:'column',   
-                    border:'1px solid #dedede',                }}>
+                    border:'1px solid #dedede',}}>
                 <Box 
                     sx={{
                         padding:'15px', 
@@ -35,12 +35,6 @@ function DashAnalytics() {
                         }}>
                         Development Activity
                     </Typography> 
-                </Box>
-                <Box sx={{padding:'25px'}}>
-                    {/* Putting a Country, Name, and Date Submitted Tags here */} 
-                    <Typography sx={{border:'solid', width:'15rem', height:'15rem'}}>
-                        Dummy text here
-                    </Typography>
                 </Box>
             </Card>
 
@@ -60,7 +54,7 @@ function DashAnalytics() {
                     sx={{ 
                         padding: '15px',
                         border: '1px grey solid',
-                        backgroundColor:'#99cdf5',
+                        background: 'linear-gradient(156deg,#0080A0,#004060)',
                         marginBottom:'20px',
                         flexShrink: 0,  // Ensure the header doesn't shrink
                         boxSizing: 'border-box',  // Adjusts width/height to include padding and border 
@@ -70,7 +64,9 @@ function DashAnalytics() {
                     <Typography 
                         sx={{
                             display: 'flex',
-                            alignContent: 'start',                           
+                            alignContent: 'start',  
+                            color:'white', 
+                            fontWeight:'bold'                           
                         }}
                     >
                         Read our documentation with code examples
@@ -92,7 +88,7 @@ function DashAnalytics() {
                         </Box>
                         <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', }}>
                             {/* Different content for Card 1 */}
-                            <img src="https://placehold.it/150x150" alt="Placeholder" />
+                          <StoryChart></StoryChart>
                         </Box>
                     </Card>
 

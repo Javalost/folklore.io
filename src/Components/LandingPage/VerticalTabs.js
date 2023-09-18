@@ -1,18 +1,8 @@
 import React from 'react';
 import { Tab, Tabs, Box, Typography } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import { useUser, UserButton, useClerk } from '@clerk/clerk-react';
+
 
 function VerticalTabs({ value, onChange }) {
-  
-  const { user } = useUser(); // Get the current user using the useUser hook 
-  const { client } = useClerk();
-
-
-  const handleSignOut = async () => {
-    await client.signOut();
-    window.location.href = '/';
-  };
   
   const handleTabChange = (event, newValue) => {
     onChange(newValue);
@@ -48,7 +38,14 @@ function VerticalTabs({ value, onChange }) {
             alignItems: 'center'
         }}
       >
-        <Typography variant = "h4" fontWeight='bold' sx={{marginLeft:'10px'}}>FOLKORE</Typography>
+        <Typography variant = "h4" fontWeight='bold' sx={{
+          marginLeft:'10px', 
+          background: 'linear-gradient(156deg, #0080A0, #004060)', 
+          WebkitBackgroundClip: 'text',
+          color: 'transparent',
+        }}>
+            FOLKORE
+        </Typography>
       </Box>
       <Tabs
         variant="scrollable"

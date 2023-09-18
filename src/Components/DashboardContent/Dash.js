@@ -37,7 +37,15 @@ const Dash = () => {
                         }}
                     >
                         <Dashboard fontSize="large" color="primary"/>
-                        <Typography variant="h4">Dashboard</Typography>
+                        <Typography 
+                            variant="h4"
+                            sx={{
+                                background: 'linear-gradient(156deg, #0080A0, #004060)', 
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent',
+                            }}
+                        >
+                            Dashboard</Typography>
                     </Box>
 
                     <Box
