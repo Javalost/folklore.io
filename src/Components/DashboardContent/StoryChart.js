@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts'; 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const StoryComponent = () => {
+
+const StoryChart = () => {
     const [isoCounts, setIsoCounts] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -36,7 +37,7 @@ const StoryComponent = () => {
     }, []);
 
     const isoList = Object.keys(isoCounts).slice(0, 3); // Limiting to first 3 ISOs
-    const countList = Object.values(isoCounts).slice(0, 3); // Limiting to counts of first 3 ISOs
+    const countList = isoList.map(iso => ({ month: iso, seoul: isoCounts[iso] })); // Creating a dataset as expected by the BarChart
 
     if (loading) {
         return <p>Loading...</p>;
@@ -47,28 +48,20 @@ const StoryComponent = () => {
     }
 
     return (
-        <Box sx={{
-        }}>
+        <Box sx={{padding:0, margin:0, display:'flex', flexDirection:'column', justifyContent:'center', marginLeft:'20px'}}>
             <BarChart
-                xAxis={[
-                    {
-                        id: 'isoCategories',
-                        data: isoList,
-                        scaleType: 'band',
-                    },
-                ]}
-                series={[
-                    {
-                        data: countList,
-                    },
-                ]}
-                width={300}
-                height={300} 
-               
+                dataset={countList}
+                yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+                series={[{ dataKey: 'seoul', label: 'Stories per Country' }]} // 'label' changed to something more relevant
+                layout="horizontal" 
+                width={400}
+                height={200}
             />
-            { Object.keys(isoCounts).length > 3 && <p style={{ textAlign: 'center' }}>and more</p> }
+            { Object.keys(isoCounts).length > 3 && 
+            <Typography style={{ textAlign: 'center' }}>and more</Typography> }
         </Box>
     );
 };
 
-export default StoryComponent;
+
+export default StoryChart;
