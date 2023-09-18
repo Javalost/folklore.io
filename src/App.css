@@ -47,11 +47,18 @@
 .leaflet-popup-content {
   width: 280px; /* Adjust as per your requirement */
 }
+.custom-pagination .Mui-selected {
+  background-color: #333; /* Dark background */
+  color: #fff; /* White text */
+  border-radius: 5px; /* Optional: add a little rounding */
+}
+
 .custom-pagination li button {
-  background-color: white!important; 
-  color: blue; 
-  font-weight: bolder;
+background-color: white; 
+color: blue; 
+font-weight: bolder;
 } 
+
 /* Add this CSS to your stylesheet */
 ::-webkit-scrollbar {
   width: 0.5em; /* Set the width of the scrollbar */

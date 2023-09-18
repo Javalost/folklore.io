@@ -3,9 +3,6 @@ import { useClerk } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 
 function DashAnalytics() {  
-    const { user, session} = useClerk(); 
-    const [userStats, setUserStats] = useState(null);
-    
 
     return(
         <Box 
