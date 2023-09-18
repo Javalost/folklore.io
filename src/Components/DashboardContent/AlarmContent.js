@@ -96,7 +96,6 @@ const AlarmContent = () => {
                             padding: '10px', 
                             borderLeft:'1px solid #dedede',
 
-                            border: 'none',
                             fontFamily: 'medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif', 
                         },
                         disableUnderline: true,
