@@ -18,7 +18,7 @@ const Dash = () => {
     const { user } = useUser();
     console.log("ID" + user.id)
     return (
-        <Box sx={{ margin: '0', padding: '0' }}>
+        <Box sx={{ height: '100vh', margin: '0', padding: '0', flexDirection: 'column', display: 'flex' }}>
             <Box>
                 <Box
                     sx={{
@@ -146,4 +146,3 @@ export default Dash;
 
 
 
-//<Dash <SimpleFetchTest><AlarmContent><CombinedDashContent <DashAnalytics><DashCards>>>

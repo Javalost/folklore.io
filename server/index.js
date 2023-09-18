@@ -1,37 +1,33 @@
 require('dotenv').config({ path: '../.env' });
+console.log("Environment variables loaded");
 
+const bcrypt = require('bcrypt');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { Clerk } = require('@clerk/clerk-sdk-node');
+const axios = require('axios');
+
+console.log("Modules imported");
 
 const app = express();
-const port = 3001;
+const port = 3001; 
 
-const corsOptions = {
+const corsOptions = { 
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
 };
 
+console.log("CORS options set");
+
+// Middleware setup
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
+app.use(cors(corsOptions));  
 app.use(express.json());
 
-const clerk = new Clerk(process.env.CLERK_SECRET_KEY);
+console.log("Middleware setup complete");
 
-const verifyClerkSession = async (req, res, next) => {
-    try {
-        const sessionToken = req.headers.authorization.split("Bearer ")[1];
-        const sessionId = await clerk.sessions.verifyToken(sessionToken);
-        const session = await clerk.sessions.getSession(sessionId);
-        req.user = session;
-        next();
-    } catch (error) {
-        res.status(401).send("Unauthorized");
-    }
-}; 
-
+// Database setup
 const pool = new Pool({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -40,73 +36,34 @@ const pool = new Pool({
     port: process.env.PG_PORT,
 });
 
-app.get('/get-username', async (req, res) => {
-    const sessionId = req.headers['clerk-session-id'];
-    
-    if (!sessionId) {
-        return res.status(400).send("Clerk session ID required.");
+console.log("Database pool created");
+
+app.post('/register', async (req, res) => {
+    console.log("/register endpoint hit");
+    const { username, email, password, recaptcha } = req.body;
+    console.log("Request body destructured");
+
+    const recaptchaSecretKey = process.env.PG_RECAPTCHA_SECRET_KEY;
+    const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecretKey}&response=${recaptcha}`;
+
+    const recaptchaResponse = await axios.post(verificationURL);
+    if (!recaptchaResponse.data.success) {
+        return res.status(400).send('reCAPTCHA verification failed');
+    }
+
+    console.log("Password:", password);
+    const saltRounds = 10;
+    console.log("Salt Rounds:", saltRounds);
+
+    if (!password) {
+        console.error("Password is not provided or is empty");
+        return res.status(400).send('Bad request: password is missing');
     }
 
     try {
-        const user = await clerk.users.getUserBySessionId(sessionId);
-        if (user && user.username) {
-            res.json({ username: user.username });
-        } else {
-            res.status(404).send("Username not found.");
-        }
-    } catch (error) {
-        console.error("Failed to fetch user:", error);
-        res.status(500).send("Internal Server Error.");
-    }
-});
-
-app.post('/api/init-user-dashboard', verifyClerkSession, async (req, res) => {
-    const userId = req.user.id; // Extracted from the Clerk session
-    
-    try {
-        await pool.query(`
-            INSERT INTO user_dashboard(user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING
-        `, [userId]);
-
-        res.send('User dashboard initialized successfully');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
-
-
-
-
-app.post('/store-user-data', verifyClerkSession, async (req, res) => {
-    const userId = req.user.id;
-    const email = req.user.primaryEmailAddress.emailAddress;
-
-    try {
-        const result = await pool.query('INSERT INTO users (auth0_id, email) VALUES ($1, $2) RETURNING id', [userId, email]);
-
-        if (result.rows.length > 0) {
-            res.send('User stored successfully');
-        } else {
-            res.status(500).send('Unable to store user');
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
-
-app.get('/fetch-user-data', verifyClerkSession, async (req, res) => {
-    const userId = req.user.id;
-
-    try {
-        const result = await pool.query('SELECT * FROM users WHERE auth0_id = $1', [userId]);
-
-        if (result.rows.length > 0) {
-            res.json(result.rows[0]);
-        } else {
-            res.status(404).send('User not found');
-        }
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        await pool.query('INSERT INTO userdata (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
+        res.send('User registered successfully');
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
@@ -114,6 +71,7 @@ app.get('/fetch-user-data', verifyClerkSession, async (req, res) => {
 });
 
 app.get('/stories', async (req, res) => {
+    console.log("/stories endpoint hit");
     try {
         const country = req.query.country;
         let query;
@@ -135,6 +93,7 @@ app.get('/stories', async (req, res) => {
 });
 
 app.get('/countries', async (req, res) => {
+    console.log("/countries endpoint hit");
     try {
         const query = 'SELECT DISTINCT country FROM stories';
         const result = await pool.query(query);
@@ -144,19 +103,34 @@ app.get('/countries', async (req, res) => {
         console.error(err);
         res.status(500).send('Server error');
     }
+}); 
+
+app.post('/api/add-story', async (req, res) => {
+    console.log("/api/add-story endpoint hit");
+    const { userId, country, name, story } = req.body;
+
+    try {
+        await pool.query('INSERT INTO draft_stories (user_id, country, name, story) VALUES ($1, $2, $3, $4)', [userId, country, name, story]);
+        res.json({ success: true, message: 'Story added successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
 });
 
 app.get('/testform', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM testform');
+    console.log("/testform endpoint hit");
+    try { 
+        const result = await pool.query('SELECT * FROM testform'); 
         res.json(result.rows);
-    } catch (err) {
+    } catch (err) { 
         console.error(err);
         res.status(500).send('Server error');
     }
 });
 
 app.post('/submit-data', async (req, res) => {
+    console.log("/submit-data endpoint hit");
     const { name, content, location } = req.body;
     try {
         await pool.query('INSERT INTO testform (name, content, location) VALUES ($1, $2, $3)', [name, content, location]);
@@ -168,6 +142,7 @@ app.post('/submit-data', async (req, res) => {
 });
 
 app.get('/genres', async (req, res) => {
+    console.log("/genres endpoint hit");
     try {
         const result = await pool.query('SELECT DISTINCT genre FROM stories');
         res.json(result.rows.map(row => row.genre));
@@ -178,6 +153,7 @@ app.get('/genres', async (req, res) => {
 });
 
 app.get('/regions', async (req, res) => {
+    console.log("/regions endpoint hit");
     try {
         const result = await pool.query('SELECT DISTINCT region FROM stories');
         res.json(result.rows.map(row => row.region));
@@ -188,6 +164,7 @@ app.get('/regions', async (req, res) => {
 });
 
 app.get('/filtered-stories', async (req, res) => {
+    console.log("/filtered-stories endpoint hit");
     try {
         const genres = req.query.genres ? req.query.genres.split(',') : [];
         const regions = req.query.regions ? req.query.regions.split(',') : [];
@@ -213,6 +190,7 @@ app.get('/filtered-stories', async (req, res) => {
     }
 });
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
