@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts'; 
-import { Box, Typography } from '@mui/material';
-
+import { Box } from '@mui/material';
 
 const StoryChart = () => {
-    const [isoCounts, setIsoCounts] = useState({});
+    const [stories, setStories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -13,19 +12,7 @@ const StoryChart = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/stories');
-                const stories = response.data;
-
-                const tempIsoCounts = {};
-
-                stories.forEach(story => {
-                    if(tempIsoCounts[story.iso]) {
-                        tempIsoCounts[story.iso]++;
-                    } else {
-                        tempIsoCounts[story.iso] = 1;
-                    }
-                });
-
-                setIsoCounts(tempIsoCounts);
+                setStories(response.data);
                 setLoading(false);
             } catch (err) {
                 setError(err.message || "An error occurred.");
@@ -36,8 +23,36 @@ const StoryChart = () => {
         fetchData();
     }, []);
 
-    const isoList = Object.keys(isoCounts).slice(0, 3); // Limiting to first 3 ISOs
-    const countList = isoList.map(iso => ({ month: iso, seoul: isoCounts[iso] })); // Creating a dataset as expected by the BarChart
+    const isoLengthData = {};
+
+    stories.forEach(story => {
+        const storyLength = story.story.split(' ').length;
+        if (isoLengthData[story.iso]) {
+            isoLengthData[story.iso].total += storyLength;
+            isoLengthData[story.iso].count++;
+        } else {
+            isoLengthData[story.iso] = {
+                total: storyLength,
+                count: 1
+            };
+        }
+    });
+
+    const averageLengths = {};
+
+    for (let iso in isoLengthData) {
+        averageLengths[iso] = isoLengthData[iso].total / isoLengthData[iso].count;
+    }
+
+    const sortedIsos = Object.keys(averageLengths).sort((a, b) => averageLengths[b] - averageLengths[a]);
+    const top3Isos = sortedIsos.slice(0, 3);
+
+    const dataset = top3Isos.map(iso => {
+        return {
+            iso: iso,
+            average: averageLengths[iso]
+        };
+    });
 
     if (loading) {
         return <p>Loading...</p>;
@@ -48,20 +63,28 @@ const StoryChart = () => {
     }
 
     return (
-        <Box sx={{padding:0, margin:0, display:'flex', flexDirection:'column', justifyContent:'center', marginLeft:'20px'}}>
+        <Box sx={{}}>
             <BarChart
-                dataset={countList}
-                yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-                series={[{ dataKey: 'seoul', label: 'Stories per Country' }]} // 'label' changed to something more relevant
-                layout="horizontal" 
-                width={400}
-                height={200}
+                dataset={dataset}
+                xAxis={[
+                    {
+                        id: 'isoCategories',
+                        data: top3Isos,
+                        scaleType: 'band',
+                    },
+                ]}
+                series={[
+                    {
+                        dataKey: 'average',
+                        label: 'Average Word Count'
+                    }
+                ]}
+                width={250}
+                height={300} 
             />
-            { Object.keys(isoCounts).length > 3 && 
-            <Typography style={{ textAlign: 'center' }}>and more</Typography> }
+            { Object.keys(isoLengthData).length > 3 && <p style={{ textAlign: 'center' }}>and more</p> }
         </Box>
     );
 };
-
 
 export default StoryChart;

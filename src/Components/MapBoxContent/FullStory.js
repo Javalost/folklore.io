@@ -5,7 +5,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
 function FullStory({ story, totalStories, storyIndex, onSwitchStory, setSelectedStory }) { 
   return (
-        <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', alignItems:'center' }}> 
+    <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', flexDirection: 'column', alignItems:'center' }}>
             <Box sx={{display: 'flex', flexDirection:'row', alignItems:'center', gap: '15px'}}> 
                 <IconButton 
                     onClick={() => onSwitchStory(-1)} 

@@ -1,7 +1,41 @@
 import { Card, Box, Typography } from "@mui/material";
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import StoryChart from "./StoryChart";
+import StoriesByISO from "./StoriesByISO";
+import DetailedStory from "./DetailedStory";
 
-function DashAnalytics() {  
+function DashAnalytics() {
+    const [stories, setStories] = useState([]);
+    const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/stories')
+            .then(response => {
+                setStories(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching stories:", error);
+            });
+    }, []);
+
+    const handleSwitchStory = useCallback((direction) => {
+        if (direction === 1 && currentStoryIndex < stories.length - 1) {
+            setCurrentStoryIndex(currentStoryIndex + 1);
+        } else if (direction === -1 && currentStoryIndex > 0) {
+            setCurrentStoryIndex(currentStoryIndex - 1);
+        }
+    }, [currentStoryIndex, stories.length]); // dependencies for useCallback
+
+    useEffect(() => {
+        const switchStoryInterval = setInterval(() => {
+            handleSwitchStory(1);
+        }, 12000);  // switch every 12 seconds
+    
+        return () => clearInterval(switchStoryInterval);
+    }, [currentStoryIndex, handleSwitchStory]);
+    
+    
     return (
         <Box 
             sx={{
@@ -9,33 +43,31 @@ function DashAnalytics() {
                 height:'100vh', 
                 backgroundColor: '#e9f2f8',
                 justifyContent:'space-around',
-                padding: '0 20px'
-            }}>
+                padding: '0 20px', 
+            }}
+        >
             
-            <Card 
-                sx={{
-                    display:'flex',
-                    width:'45%', 
-                    height:'auto',
-                    flexDirection:'column',   
-                    border:'1px solid #dedede',
-                }}>
-                <Box 
-                    sx={{
-                        padding:'15px', 
-                        borderBottom:'1px grey solid',
-                        marginLeft:'20px'  // corrected 'marginleft' to 'marginLeft'
-                    }}>
-                    <Typography 
-                        variant='h5'
-                        sx={{
-                            display:'flex',
-                            alignContent:'start',
-                        }}>
-                        Development Activity
-                    </Typography> 
-                </Box>
-            </Card>
+    {
+        stories.length > 0 && 
+        <DetailedStory  
+            style={{
+                animationName: "fadeInOut",
+                animationTimingFunction: "ease-in-out",
+                animationDuration: "12s", // The full cycle will take 12 seconds, adjust as needed
+                animationIterationCount: "infinite"
+            }}
+            sx={{              
+                display: 'flex',
+                flexGrow: 1,
+                width: '100%', 
+            }}
+            story={stories[currentStoryIndex]} 
+            totalStories={stories.length} 
+            storyIndex={currentStoryIndex} 
+            onSwitchStory={handleSwitchStory}
+            setSelectedStory={(story) => {}}
+        />
+    }
 
             <Card 
                 elevation={0}
@@ -69,13 +101,13 @@ function DashAnalytics() {
                     >
                         Read our documentation with code examples
                     </Typography> 
-                </Box> 
+                </Box>
                 <Box 
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: '1fr', // Single-column grid
-                        gridTemplateRows: '1fr 1fr', // Two-row grid
-                        gap: '20px',
+                        gridTemplateColumns: '1fr',
+                        gridTemplateRows: '1fr 1fr',
+                        gridGap: 0,
                         flexGrow: 1,
                         boxSizing: 'border-box'
                     }}
@@ -87,33 +119,30 @@ function DashAnalytics() {
                             boxSizing: 'border-box', 
                             border:'1px solid #dedede', 
                             display:'flex', 
-                            flexDirection:'column',
+                            flexDirection:'column', 
+                            justifyContent:'center',
                             overflow: 'hidden'
                         }}
                     >
-                        <Box sx={{padding:'20px', borderBottom: '1px solid gray'}}>
-                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR CARD 1</Typography>  
-                        </Box> 
-                        <Box sx={{display:'flex'}}>
-                            <StoryChart></StoryChart>
+                        <Box sx={{flexGrow: 1, display:'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                            <Box sx={{display:'flex', justifyContent:'center'}}>
+                                <StoryChart></StoryChart> 
+                            </Box> 
+                            <Typography>and more</Typography>
                         </Box>
                     </Card>
-
                     <Card 
                         sx={{ 
-                            height: '300px', // Adjust height if needed
+                            height: '400px',
                             width: '100%', 
                             boxSizing: 'border-box',
                             border:'1px solid #dedede', 
                             display:'flex', 
-                            flexDirection:'column'
+                            flexDirection:'column', 
                         }}
                     >
-                        <Box sx={{padding:'20px', borderBottom: '1px solid gray'}}>
-                            <Typography sx={{ display:'flex', alignContent:'start' }}>WORDS FOR COMBINED CARD</Typography>  
-                        </Box> 
-                        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            {/* Content for the merged card */}
+                        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'100%'}}>
+                            <StoriesByISO/>
                         </Box>
                     </Card>
                 </Box>
