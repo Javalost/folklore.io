@@ -35,7 +35,7 @@ function DashAnalytics() {
         height: '100vh',
         backgroundColor: '#e9f2f8',
         justifyContent: 'space-around',
-        padding: '0 20px',
+        padding: '0 0px',
       }}
     >
       {stories.length > 0 && (
@@ -57,74 +57,51 @@ function DashAnalytics() {
           width: '45%',
           height: '100%',
           boxSizing: 'border-box',
+          margin: 0, 
+          padding: 0,
         }}
       >
                 <Box 
+                sx={{
+                    display:'flex',
+                    flexDirection:'column',
+                    height: '100vh',
+                    gap:'4rem'
+                }}
+            >
+                <Card 
                     sx={{ 
-                        padding: '15px',
-                        border: '1px grey solid',
-                        background: 'linear-gradient(156deg,#0080A0,#004060)',
-                        marginBottom:'20px',
-                        flexShrink: 0,
-                        boxSizing: 'border-box',
-                        borderRadius:'5px'
+                        height: '300px',
+                        width: '100%',
+                        boxSizing: 'border-box', 
+                        border:'1px solid #dedede', 
+                        display:'flex', 
+                        flexDirection:'column', 
+                        justifyContent:'center',
+                        overflow: 'hidden',
+                        margin: 0, // Explicitly set to 0
+                        padding: 0  // Explicitly set to 0
                     }}
                 >
-                    <Typography 
-                        sx={{
-                            display: 'flex',
-                            alignContent: 'start',  
-                            color:'white', 
-                            fontWeight:'bold'                           
-                        }}
-                    >
-                        Read our documentation with code examples
-                    </Typography> 
-                </Box>
-                <Box 
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr',
-                        gridTemplateRows: '1fr 1fr',
-                        gridGap: 0,
-                        flexGrow: 1,
-                        boxSizing: 'border-box'
+                    <Box sx={{display:'flex', justifyContent:'center'}}>
+                        <StoryChart></StoryChart> 
+                    </Box> 
+                    <Typography>and more</Typography>
+                </Card>
+                <Card 
+                    sx={{ 
+                        height: '300px',
+                        width: '100%', 
+                        border:'1px solid #dedede', 
+                        display:'flex', 
+                        flexDirection:'column',
+                        margin: 0, // Explicitly set to 0
+                        padding: 0  // Explicitly set to 0
                     }}
                 >
-                    <Card 
-                        sx={{ 
-                            height: '300px',
-                            width: '100%',
-                            boxSizing: 'border-box', 
-                            border:'1px solid #dedede', 
-                            display:'flex', 
-                            flexDirection:'column', 
-                            justifyContent:'center',
-                            overflow: 'hidden'
-                        }}
-                    >
-                        <Box sx={{flexGrow: 1, display:'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                            <Box sx={{display:'flex', justifyContent:'center'}}>
-                                <StoryChart></StoryChart> 
-                            </Box> 
-                            <Typography>and more</Typography>
-                        </Box>
-                    </Card>
-                    <Card 
-                        sx={{ 
-                            height: '400px',
-                            width: '100%', 
-                            boxSizing: 'border-box',
-                            border:'1px solid #dedede', 
-                            display:'flex', 
-                            flexDirection:'column', 
-                        }}
-                    >
-                        <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', height:'100%'}}>
-                            <StoriesByISO/>
-                        </Box>
-                    </Card>
-                </Box>
+                    <StoriesByISO/>
+                </Card>
+</Box>
             </Card>
         </Box>
     );
