@@ -1,85 +1,64 @@
-import { Card, Box, Typography } from "@mui/material";
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import StoryChart from "./StoryChart";
-import StoriesByISO from "./StoriesByISO";
-import DetailedStory from "./DetailedStory";
+import { Box, Card, Typography } from '@mui/material';
+import DetailedStory from './DetailedStory'; 
+import StoryChart from "./StoryChart"
+import StoriesByISO from "./StoriesByISO"
 
 function DashAnalytics() {
-    const [stories, setStories] = useState([]);
-    const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
+  const [stories, setStories] = useState([]);
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/stories')
-            .then(response => {
-                setStories(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching stories:", error);
-            });
-    }, []);
+  useEffect(() => {
+    axios.get('http://localhost:3001/stories')
+      .then(response => {
+        setStories(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching stories:", error);
+      });
+  }, []);
 
-    const handleSwitchStory = useCallback((direction) => {
-        if (direction === 1 && currentStoryIndex < stories.length - 1) {
-            setCurrentStoryIndex(currentStoryIndex + 1);
-        } else if (direction === -1 && currentStoryIndex > 0) {
-            setCurrentStoryIndex(currentStoryIndex - 1);
-        }
-    }, [currentStoryIndex, stories.length]); // dependencies for useCallback
-
-    useEffect(() => {
-        const switchStoryInterval = setInterval(() => {
-            handleSwitchStory(1);
-        }, 12000);  // switch every 12 seconds
-    
-        return () => clearInterval(switchStoryInterval);
-    }, [currentStoryIndex, handleSwitchStory]);
-    
-    
-    return (
-        <Box 
-            sx={{
-                display:'flex',
-                height:'100vh', 
-                backgroundColor: '#e9f2f8',
-                justifyContent:'space-around',
-                padding: '0 20px', 
-            }}
-        >
-            
-    {
-        stories.length > 0 && 
-        <DetailedStory  
-            style={{
-                animationName: "fadeInOut",
-                animationTimingFunction: "ease-in-out",
-                animationDuration: "12s", // The full cycle will take 12 seconds, adjust as needed
-                animationIterationCount: "infinite"
-            }}
-            sx={{              
-                display: 'flex',
-                flexGrow: 1,
-                width: '100%', 
-            }}
-            story={stories[currentStoryIndex]} 
-            totalStories={stories.length} 
-            storyIndex={currentStoryIndex} 
-            onSwitchStory={handleSwitchStory}
-            setSelectedStory={(story) => {}}
-        />
+  const handleSwitchStory = useCallback((direction) => {
+    if (direction === 1) {
+        setCurrentStoryIndex((prevIndex) => (prevIndex + 1) % stories.length);
+    } else if (direction === -1) {
+        setCurrentStoryIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : stories.length - 1));
     }
+}, [stories.length]);
 
-            <Card 
-                elevation={0}
-                sx={{ 
-                    backgroundColor: '#e9f2f8',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '45%',
-                    height: '100%',
-                    boxSizing: 'border-box'
-                }}
-            >
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        backgroundColor: '#e9f2f8',
+        justifyContent: 'space-around',
+        padding: '0 20px',
+      }}
+    >
+      {stories.length > 0 && (
+        <DetailedStory
+          stories={stories}
+          totalStories={stories.length}
+          storyIndex={currentStoryIndex}
+          onSwitchStory={handleSwitchStory}
+          setSelectedStory={() => {}}
+        />
+      )}
+
+      <Card
+        elevation={0}
+        sx={{
+          backgroundColor: '#e9f2f8',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '45%',
+          height: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
                 <Box 
                     sx={{ 
                         padding: '15px',
