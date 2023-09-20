@@ -66,7 +66,7 @@ function DashAnalytics() {
                     display:'flex',
                     flexDirection:'column',
                     height: '100vh',
-                    gap:'4rem'
+                    gap:'3rem'
                 }}
             >
                 <Card 
@@ -90,7 +90,7 @@ function DashAnalytics() {
                 </Card>
                 <Card 
                     sx={{ 
-                        height: '300px',
+                        height: '375px',
                         width: '100%', 
                         border:'1px solid #dedede', 
                         display:'flex', 

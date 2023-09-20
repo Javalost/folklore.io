@@ -36,8 +36,7 @@ function LeafletMap({ stories, onMarkerClick, mapCenter }) {
         } else if (newLng > 180) {
             newLng -= 360;
         }
-        console.log('Map move end - Current center (Leaflet):', lat, lng);
-        console.log('Map move end - Received mapCenter(Leaflet):', mapCenter);
+
         if (lat !== mapCenter[0] || lng !== mapCenter[1]) {
             event.target.panTo([mapCenter[0], newLng]);
         }

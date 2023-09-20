@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts'; 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const StoryChart = () => {
     const [stories, setStories] = useState([]);
@@ -80,9 +80,11 @@ const StoryChart = () => {
                     }
                 ]}
                 width={250}
-                height={300} 
+                height={300}  
+                sx={{fontFamily: 'medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif', 
+            }}
             />
-            { Object.keys(isoLengthData).length > 3 && <p style={{ textAlign: 'center' }}>and more</p> }
+            { Object.keys(isoLengthData).length > 3 && <Typography sx={{textAlign: 'center'}}> and more</Typography> }
         </Box>
     );
 };

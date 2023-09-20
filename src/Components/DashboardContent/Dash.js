@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react';
+import {React} from 'react';
 import { Box, Button, Typography, Icon } from "@mui/material";
 import { Dashboard } from '@mui/icons-material';
 import BookIcon from '@mui/icons-material/Book';
@@ -7,10 +7,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { UserButton, useUser } from '@clerk/clerk-react';  
 import SimpleFetchTest from './SimpleFetchTest';
-import MapIcon from '@mui/icons-material/Map';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import CombinedDashContent from './CombinedDashContent'; 
-import AlarmContent from './AlarmContent';   
+import AddStory from './AddStory';   
 
 
 
@@ -58,9 +57,7 @@ const Dash = () => {
                             alignItems: 'center'
                         }}
                     >
-                        <Button variant="outlined">Button</Button>
                         <Icon>
-                            {/* Ensure you import NotificationsIcon at the top */}
                             <NotificationsIcon />
                         </Icon>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
@@ -92,7 +89,7 @@ const Dash = () => {
                         </Link>
                     </Button>
 
-                    <Button component={Link} to="/dashboard/alarm" variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
+                    <Button component={Link} to="/dashboard/addstory" variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
                         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                             <BookIcon fontSize="small" />
                             <Typography variant="caption">Write a story</Typography>
@@ -108,15 +105,6 @@ const Dash = () => {
                         </Button>
                     </Link>
 
-
-
-                    <Button variant="text" sx={{ color: 'gray', '&:hover': { color: 'blue', backgroundColor: 'transparent' } }}>
-                        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                            <Button startIcon={<MapIcon />} variant="contained" color="primary" component={Link} to="/mapbox">
-                                View Map
-                            </Button>
-                        </Box>
-                    </Button>
                 </Box>
             </Box>
             
@@ -140,7 +128,7 @@ const Dash = () => {
 
             <Box sx={{ height:'100vh' }}>
                 <Routes>
-                    <Route path="alarm" element={<AlarmContent />} />
+                    <Route path="addstory" element={<AddStory />} />
                     <Route path="/" element={<CombinedDashContent currentUser={user}/>} />
 
                 </Routes>

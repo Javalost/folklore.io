@@ -3,7 +3,7 @@ import {React, useState} from 'react';
 import axios from 'axios';
 import { useClerk } from '@clerk/clerk-react';
 
-const AlarmContent = () => {
+const AddStory = () => {
     const [country, setCountry] = useState('');
     const [title, setTitle] = useState('');
     const [story, setStory] = useState('');
@@ -169,4 +169,4 @@ const AlarmContent = () => {
     );
 }
 
-export default AlarmContent;
+export default AddStory;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
-import VerticalTabs from './VerticalTabs';
+import HomeIndexContent from './HomeIndexContent';
 import MainContent from './MainContent';
 
 function CombinedContent() {
@@ -30,7 +30,7 @@ function CombinedContent() {
           
         }}
       >
-        <VerticalTabs value={selectedTab} onChange={handleTabChange} />
+        <HomeIndexContent value={selectedTab} onChange={handleTabChange} />
       </Box>
       <MainContent onSectionInView={handleTabChange} />
     </Box>

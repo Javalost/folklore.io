@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab, Tabs, Box, Typography } from '@mui/material';
 
 
-function VerticalTabs({ value, onChange }) {
+function HomeIndexContent({ value, onChange }) {
   
   const handleTabChange = (event, newValue) => {
     onChange(newValue);
@@ -38,14 +38,16 @@ function VerticalTabs({ value, onChange }) {
             alignItems: 'center'
         }}
       >
-        <Typography variant = "h4" fontWeight='bold' sx={{
-          marginLeft:'10px', 
-          background: 'linear-gradient(156deg, #0080A0, #004060)', 
-          WebkitBackgroundClip: 'text',
-          color: 'transparent',
-        }}>
-            FOLKORE
-        </Typography>
+        <Typography 
+                            variant="h4"
+                            sx={{
+                                background: 'linear-gradient(156deg, #0080A0, #004060)', 
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent',
+                            }}
+                        >
+                            Folklore
+                            </Typography>
       </Box>
       <Tabs
         variant="scrollable"
@@ -71,4 +73,4 @@ function VerticalTabs({ value, onChange }) {
   );
 }
 
-export default VerticalTabs;
+export default HomeIndexContent;
