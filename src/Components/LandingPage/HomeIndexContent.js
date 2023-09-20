@@ -64,10 +64,7 @@ function HomeIndexContent({ value, onChange }) {
           }
         }}
       >
-        <Tab label="Tab One" />
-        <Tab label="Tab Two" />
-        <Tab label="Tab Three" /> 
-        <Tab label="Tab Four"/>
+        
       </Tabs>
     </Box>
   );
