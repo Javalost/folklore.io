@@ -1,5 +1,4 @@
 ### Folklore Web Service  
-![Alt Text](./assets/FolkloreAPI.gif)
-* Repository:(https://github.com/joseb2/folklore.io) 
-* Description: FolkloreAPI is a web service for the everyday writer, inspired artist etc. It stemmed from my desire to start writing where I found some inspiration from reddit's "folklore" information. The hope is for users to submit their own versions of folklore stories to my database and for it be viewed by the general public.  
+![Alt Text](./public/FolkloreAPI.gif)
+* Description: FolkloreAPI is a web service for the everyday writer, inspired artist etc. It stemmed from my desire to start writing where, in doing some research, I found inspiration from various forums and articles on the different categories of folklore and their origins. The hope is for users to submit their own versions of folklore stories to the web service and for it be freely accessible to others looking for the same type of resource.   
 * Tools: REACT, Express, Axios, JavaScript, HTML, CSS,  
