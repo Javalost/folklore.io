@@ -73,7 +73,6 @@ function MainContent({ onSectionInView }) {
           borderBottom: '2px solid',
         }}
       >
-        Content For Tab One
         <ProductTab/>
       </Paper>
 

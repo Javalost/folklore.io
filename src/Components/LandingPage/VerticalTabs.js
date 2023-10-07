@@ -44,7 +44,7 @@ function VerticalTabs({ value, onChange }) {
           WebkitBackgroundClip: 'text',
           color: 'transparent',
         }}>
-            FOLKORE
+            FOLKLORE
         </Typography>
       </Box>
       <Tabs
